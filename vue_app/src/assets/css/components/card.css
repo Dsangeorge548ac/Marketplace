@@ -1,0 +1,41 @@
+/*
+ * card.css — estilos compartidos para cards del marketplace
+ * Los estilos de HomeProductCard están en su propio <style scoped>
+ */
+
+/* ── Placeholder sin imagen ─────────────────────────── */
+.no-image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: gainsboro;
+    color: #9ca3af;
+    font-size: 3rem;
+}
+
+/* ── Botón add (on hover) — usado en otros contextos ── */
+.add-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #f3f4f6;
+    color: #4b5563;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    opacity: 0;
+}
+
+.add-btn:hover {
+    background: #e5e7eb;
+    color: #111827;
+}
+
+.add-btn i {
+    font-size: 1rem;
+}

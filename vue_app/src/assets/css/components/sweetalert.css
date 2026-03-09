@@ -1,0 +1,142 @@
+/* =====================================================
+   SWEETALERT2 — CUSTOM VISUAL THEME
+   Solo estilos visuales, sin modificar estructura ni funcionalidad
+   ===================================================== */
+
+/* ── Backdrop con blur suave ─────────────────────────── */
+.swal2-backdrop-show {
+    backdrop-filter: blur(3px);
+}
+
+/* ── Popup ───────────────────────────────────────────── */
+.swal2-popup {
+    border-radius: 20px;
+    font-family: var(--font-primary, "Helvetica Neue", sans-serif);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12), 0 4px 16px rgba(0, 0, 0, 0.06);
+    border: 1px solid #f0f2f5;
+}
+
+/* ── Título ──────────────────────────────────────────── */
+.swal2-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #0d2420;
+    letter-spacing: -0.01em;
+}
+
+/* ── Texto de contenido ──────────────────────────────── */
+.swal2-html-container {
+    font-size: 0.92rem;
+    color: #6b7280;
+    line-height: 1.6;
+}
+
+/* ── Ícono SUCCESS → amarillo del brand ──────────────── */
+.swal2-icon.swal2-success {
+    border-color: #fccd1e;
+    color: #fccd1e;
+}
+
+.swal2-icon.swal2-success [class^="swal2-success-line"] {
+    background-color: #fccd1e;
+}
+
+.swal2-icon.swal2-success .swal2-success-ring {
+    border-color: rgba(252, 205, 30, 0.25);
+}
+
+/* ── Ícono QUESTION → verde oscuro del brand ─────────── */
+.swal2-icon.swal2-question {
+    border-color: #0d2420;
+    color: #0d2420;
+}
+
+/* ── Botón confirmar (amarillo brand) ────────────────── */
+.swal2-confirm {
+    background-color: #fccd1e !important;
+    color: #0d2420 !important;
+    border-radius: 50px !important;
+    font-weight: 700;
+    font-family: var(--font-primary, sans-serif);
+    box-shadow: 0 4px 12px rgba(252, 205, 30, 0.3) !important;
+    transition: background-color 0.2s, transform 0.15s, box-shadow 0.2s !important;
+}
+
+.swal2-confirm:hover {
+    background-color: #e5b810 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(252, 205, 30, 0.45) !important;
+}
+
+.swal2-confirm:focus {
+    box-shadow: 0 0 0 3px rgba(252, 205, 30, 0.4) !important;
+}
+
+/* ── Botón cancelar (neutro) ─────────────────────────── */
+.swal2-cancel {
+    background-color: #f3f4f6 !important;
+    color: #374151 !important;
+    border: 1.5px solid #e5e7eb !important;
+    border-radius: 50px !important;
+    font-family: var(--font-primary, sans-serif);
+    transition: background-color 0.2s !important;
+}
+
+.swal2-cancel:hover {
+    background-color: #e5e7eb !important;
+}
+
+/* ── Botón deny (rojo suave) ─────────────────────────── */
+.swal2-deny {
+    background-color: #fef2f2 !important;
+    color: #ef4444 !important;
+    border: 1.5px solid #fecaca !important;
+    border-radius: 50px !important;
+    font-family: var(--font-primary, sans-serif);
+}
+
+.swal2-deny:hover {
+    background-color: #fee2e2 !important;
+}
+
+/* ── Barra de progreso del timer ─────────────────────── */
+.swal2-timer-progress-bar {
+    background: linear-gradient(90deg, #fccd1e, #e5b810);
+}
+
+/* ── Botón cerrar (X) ────────────────────────────────── */
+.swal2-close:hover {
+    color: #0d2420;
+    background-color: #f3f4f6;
+}
+
+/* ── Toast ───────────────────────────────────────────── */
+.swal2-popup.swal2-toast {
+    border-radius: 14px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    border: 1px solid #f0f2f5;
+    font-family: var(--font-primary, sans-serif);
+}
+
+.swal2-popup.swal2-toast .swal2-title {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #0d2420;
+}
+
+/* Bordes de color en toasts según tipo */
+.swal2-popup.swal2-toast.swal2-icon-success {
+    border-left: 4px solid #fccd1e;
+}
+
+.swal2-popup.swal2-toast.swal2-icon-error {
+    border-left: 4px solid #ef4444;
+}
+
+.swal2-popup.swal2-toast.swal2-icon-warning {
+    border-left: 4px solid #f97316;
+}
+
+.swal2-popup.swal2-toast.swal2-icon-info {
+    border-left: 4px solid #3b82f6;
+}

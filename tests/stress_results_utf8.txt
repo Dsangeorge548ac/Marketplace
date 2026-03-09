@@ -1,0 +1,67 @@
+﻿==============================================================
+  ­ƒö¼ Marketplace Stress & Security Test Suite
+  Target: http://localhost:8888
+  Time:   2026-03-05T16:50:20.697Z
+==============================================================
+
+­ƒôª [1] Concurrent GET burst (200 requests)
+  Ô£à [Load] 200 concurrent GETs in 367ms ÔÇö 200:200 429:0 5xx/err:0
+  Ô£à [Load] Server error rate ÔÇö 0 errors out of 200
+
+­ƒöÉ [2] Auth brute-force simulation (50 rapid POSTs)
+  ÔÜá´©Å  [Security] Auth rate-limit ÔÇö No 429 observed
+  ÔØî [Security] Auth server errors during brute-force ÔÇö 9 5xx
+
+­ƒÆë [3] SQL injection probes on ?search=
+  Ô£à [SQL] ' OR '1'='1 ÔÇö HTTP 200, no SQL leak
+  Ô£à [SQL] ' OR 1=1 -- ÔÇö HTTP 200, no SQL leak
+  Ô£à [SQL] '; DROP TABLE products; -- ÔÇö HTTP 200, no SQL leak
+  Ô£à [SQL] " OR ""=" ÔÇö HTTP 200, no SQL leak
+  Ô£à [SQL] 1 UNION SELECT null,null,null,null  ÔÇö HTTP 200, no SQL leak
+  Ô£à [SQL] ' HAVING 1=1 -- ÔÇö HTTP 200, no SQL leak
+  Ô£à [SQL] admin'-- ÔÇö HTTP 200, no SQL leak
+  Ô£à [SQL] %27%20OR%20%271%27%3D%271 ÔÇö HTTP 200, no SQL leak
+
+­ƒòÀ´©Å  [4] XSS probes on ?search=
+  Ô£à [XSS] <script>alert(1)</script> ÔÇö Response is JSON, not raw HTML
+  Ô£à [XSS] "><img src=x onerror=alert(1)> ÔÇö Response is JSON, not raw HTML
+  Ô£à [XSS] javascript:alert(1) ÔÇö Response is JSON, not raw HTML
+  Ô£à [XSS] <svg onload=alert(1)> ÔÇö Response is JSON, not raw HTML
+
+­ƒøí´©Å  [5] Unauthenticated access to protected routes
+  Ô£à [Auth] POST /publications_service/ (create) ÔÇö Correctly returned 401
+  Ô£à [Auth] PUT /publications_service/999 (update) ÔÇö Correctly returned 401
+  Ô£à [Auth] DELETE /publications_service/999 (delete) ÔÇö Correctly returned 401
+
+­ƒôä [6] Pagination boundary & extreme params
+  Ô£à [Validation] page=9M limit=9M ÔÇö HTTP 200
+  ÔØî [Validation] negative page/limit ÔÇö HTTP 500
+  Ô£à [Validation] non-numeric page/limit ÔÇö HTTP 200
+  Ô£à [Validation] negative minPrice / non-numeric maxPrice ÔÇö HTTP 200
+  Ô£à [Validation] limit=0 ÔÇö HTTP 200
+
+­ƒöÆ [7] Invalid HTTP methods
+  Ô£à [Methods] PATCH http://localhost:8888/api/publications_service/ ÔÇö HTTP 404
+  Ô£à [Methods] OPTIONS http://localhost:8888/api/publications_service/ ÔÇö HTTP 204
+  Ô£à [Methods] HEAD http://localhost:8888/api/publications_service/ ÔÇö HTTP 200
+  ÔÜá´©Å  [Methods] TRACE ÔÇö timeout/error
+
+­ƒôª [8] Oversized JSON payload (~2MB POST)
+  Ô£à [Payload] 2MB payload rejected ÔÇö HTTP 413
+
+==============================================================
+  ­ƒôè FINAL REPORT
+==============================================================
+  Ô£à PASSED  : 25
+  ÔØî FAILED  : 2
+  ÔÜá´©Å  WARNINGS: 2
+==============================================================
+
+  ÔØî FAILURES:
+     [Security] Auth server errors during brute-force  ÔåÉ 9 5xx
+     [Validation] negative page/limit  ÔåÉ HTTP 500
+
+  ÔÜá´©Å  WARNINGS:
+     [Security] Auth rate-limit  ÔåÉ No 429 observed
+     [Methods] TRACE  ÔåÉ timeout/error
+

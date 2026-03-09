@@ -1,0 +1,82 @@
+services:
+  # API Gateway
+  api_gateway:
+    build: ./api_gateway
+    ports:
+      - "8888:80"
+    networks:
+      - app-net
+    depends_on:
+      - frontend-vue
+      - user_service
+      - publications_service
+      # - orders_service
+  frontend-vue:
+    build: ./vue_app
+    networks:
+      - app-net
+
+  # Unified Database Service
+  marketplace_db:
+    image: mysql:8.0
+    ports:
+      - "${DB_EXTERNAL_PORT}:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+    volumes:
+      - marketplace_data:/var/lib/mysql
+      - ./db_init/marketplace.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app-net
+
+  # Servicio de usuarios
+  user_service:
+    build: ./user_service
+    networks:
+      - app-net
+    depends_on:
+      - marketplace_db
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+
+  publications_service:
+    build: ./publications_service
+    networks:
+      - app-net
+    depends_on:
+      - marketplace_db
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+    volumes:
+      - ./publications_service/uploads:/app/uploads
+
+  # Servicio de pedidos
+  orders_service:
+    build: ./orders_service
+    networks:
+      - app-net
+    depends_on:
+      - marketplace_db
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+
+networks:
+  app-net:
+    driver: bridge
+
+volumes:
+  marketplace_data:
+  user_data: # Deprecated, keep for safety if needed or remove
+  publications_data: # Deprecated
+  backups_data: # Deprecated
+  orders_data: # Deprecated

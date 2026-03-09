@@ -1,0 +1,347 @@
+@import url('https://fonts.googleapis.com/css2?family=Questrial&display=swap');
+
+/* --- VARIABLES --- */
+:root {
+    /* Fuentes y Colores Base */
+    --font-primary: "Questrial", sans-serif;
+    --bg-body: white;
+    --primary-text: #0d2420;
+
+    /* Colores del Sidebar (Diseño Dark SaaS) */
+    --sidebar-bg: #111827;
+    /* Fondo oscuro */
+    --sidebar-text: #9ca3af;
+    /* Texto gris suave */
+    --sidebar-text-hover: #ffffff;
+    /* Texto blanco al hover */
+    --brand-color: #fccd1e;
+    /* Amarillo Fabrimine */
+    --brand-bg-light: rgba(252, 205, 30, 0.15);
+    /* Fondo amarillo transparente */
+    --sidebar-border: rgba(255, 255, 255, 0.08);
+    /* Bordes sutiles */
+
+    /* Variables Generales (Botones, Sombras) */
+    --button-color: #fccd1e;
+    --white: #ffffff;
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- RESET BÁSICO --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-primary);
+    background: var(--bg-body);
+    color: var(--primary-text);
+}
+
+.logoImg {
+    width: auto;
+    height: 40px;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+/* --- SIDEBAR PRINCIPAL (Estilos Nuevos) --- */
+.app-sidebar {
+    width: 280px;
+    /* Reduced specific width */
+    min-width: 320px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+    left: 0;
+    border-left: none !important;
+    z-index: 1001;
+    overflow-y: auto;
+    transition: margin-left 0.3s ease;
+    /* Ensure visibility */
+    flex-shrink: 0;
+    /* Don't shrink in flex container */
+}
+
+/* Scrollbar personalizado oscuro */
+.app-sidebar::-webkit-scrollbar {
+    width: 5px;
+}
+
+.app-sidebar::-webkit-scrollbar-thumb {
+    background: #374151;
+    border-radius: 3px;
+}
+
+/* 1. Header del Sidebar */
+.app-sidebar-header {
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--sidebar-border);
+}
+
+.app-brand-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.app-brand-container .app-brand-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--brand-color);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-size: 1.2rem;
+}
+
+.app-brand-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--sidebar-bg);
+    letter-spacing: 0.5px;
+    margin: 0;
+}
+
+/* 2. Navegación */
+.app-navigation {
+    flex: 1;
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-section-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: #4b5563;
+    /* Gris oscuro para títulos de sección */
+    margin: 0 0 10px 12px;
+    font-weight: 700;
+}
+
+.app-nav-list {
+    list-style: none;
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+.main-content-dashboard .container-place-dashboard {
+    display: flex;
+    gap: 0;
+    min-height: 100vh;
+}
+
+.main-content-dashboard {
+    padding: 0;
+    margin: auto;
+    justify-content: center;
+}
+
+.container-place-dashboard {
+    margin: 0;
+    padding: 0;
+}
+
+.products-section {
+    margin: 20px;
+    padding: 5px;
+}
+
+.section-scroll-dasboard {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    height: 100vh;
+    width: 100%;
+}
+
+.section-scroll-dasboard .app-brand-container {
+    margin: 19px 20px;
+    padding: 0;
+}
+
+/* --- BOTÓN PRINCIPAL UNIFICADO --- */
+.publication-btn {
+    /* Uso de la variable maestra */
+    background: var(--button-color);
+    color: gold;
+    border: transparent;
+    padding: 10px 30px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+    border-radius: 20px;
+    font-size: 14px !important;
+}
+
+.btn-delete {
+    background-color: #ef4444 !important;
+    color: var(--bg-body) !important;
+}
+
+.publication-btn:hover {
+    background-color: var(--button-hover) !important;
+}
+
+.submit-button {
+    background: var(--button-color);
+    border-color: #ffffff;
+    color: var(--primary-text);
+}
+
+.app-nav-list li {
+    margin-bottom: 4px;
+}
+
+.app-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    text-decoration: none;
+    color: var(--sidebar-text);
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: var(--transition);
+}
+
+.app-nav-link i {
+    font-size: 1.25rem;
+    min-width: 24px;
+    text-align: center;
+}
+
+/* Estados Hover y Active del Menú */
+.app-nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--sidebar-bg);
+}
+
+.app-nav-link.active {
+    background-color: var(--brand-bg-light);
+    color: var(--brand-color);
+    font-weight: 600;
+}
+
+/* Enlace especial Cerrar Sesión (Rojo suave al hover) */
+.logout-link:hover {
+    background-color: rgba(239, 68, 68, 0.15) !important;
+    color: #ef4444 !important;
+}
+
+/* 3. Footer / Perfil de Usuario */
+.app-sidebar-footer {
+    padding: 16px;
+}
+
+.app-user-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    border-radius: 10px;
+    transition: background 0.2s;
+    cursor: pointer;
+}
+
+.app-user-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Estilo para la imagen (sin clase img, usa selectores directos por si acaso) */
+.app-user-card img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--sidebar-border);
+}
+
+.app-user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.app-user-name {
+    font-weight: 600;
+    color: var(--sidebar-bg);
+    font-size: 0.85rem;
+}
+
+.app-user-role {
+    font-size: 0.75rem;
+    color: var(--sidebar-text);
+}
+
+/* --- ELEMENTOS MÓVILES Y OVERLAY --- */
+.app-sidebar-close {
+    display: none;
+    /* Oculto en escritorio */
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--sidebar-text);
+    cursor: pointer;
+}
+
+.app-sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+    .app-sidebar {
+        position: fixed;
+        background-color: white;
+        left: -320px;
+        /* Oculto totalmente a la izquierda */
+        box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .main-content-dashboard .container-place-dashboard {
+        display: flex !important;
+        width: 100%;
+    }
+
+
+    .app-sidebar.open {
+        left: 0;
+        transform: none;
+    }
+
+    .app-sidebar-close {
+        display: block;
+        /* Visible solo en móvil */
+    }
+
+    .app-sidebar-overlay.active {
+        display: block;
+        /* Visible cuando el menú abre */
+    }
+}

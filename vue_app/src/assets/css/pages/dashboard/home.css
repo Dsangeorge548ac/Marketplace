@@ -1,0 +1,17 @@
+/* Sidebar Toggle Button */
+.btn-menu-toggle {
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: #4b5563;
+    margin-right: 15px;
+    align-items: center;
+    display: flex;
+}
+
+.section-scroll-dasboard {
+    transition: margin-left 0.3s ease;
+    width: 100%;
+    /* Take remaining space */
+}

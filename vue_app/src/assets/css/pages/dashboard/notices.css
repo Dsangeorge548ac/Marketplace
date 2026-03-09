@@ -1,0 +1,166 @@
+@import '@/assets/css/components/modal.css';
+
+.products-grid.notices-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 20px;
+    /*
+    padding: 20px 0;
+    */
+}
+
+.notice-card {
+    background: white;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+    width: 100%;
+}
+
+.notice-card:hover {
+    transform: translateY(-2px);
+}
+
+.notice-image-container {
+    /* Fixed width for the image part */
+    flex-shrink: 0;
+    position: relative;
+    background-color: #f8f9fa;
+    overflow: hidden;
+}
+
+.notice-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    max-width: 700px;
+    min-width: 40vw;
+    max-height: 700px;
+    transition: transform .3s ease
+}
+
+
+.notice-card:hover .notice-img {
+    transform: scale(1.05);
+}
+
+.notice-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+    /* Ensure text truncates properly */
+}
+
+.notice-date {
+    font-size: 1rem;
+    color: #999;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+.notice-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 6px;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    /* Single line title usually better for list, or 2 */
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.notice-subtitle {
+    font-size: 1rem;
+    color: #5d6778;
+    margin-bottom: 10px;
+    font-weight: 500;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.notice-description {
+    font-size: 1.4rem;
+    color: #6c757d;
+    line-height: 1.5;
+    margin-bottom: auto;
+    /* Push actions to bottom */
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.notice-actions {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+    /* Actions on the right */
+    gap: 10px;
+}
+
+.btn-action {
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: auto;
+    /* Auto width instead of flex:1 */
+}
+
+.btn-action.delete {
+    background-color: transparent;
+    color: #e03131;
+    border: 1px solid transparent;
+}
+
+.btn-action.delete:hover {
+    background-color: #fff1f0;
+    border-color: #ffa8a8;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .notice-card {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .notice-image-container {
+        width: 100%;
+        height: 200px;
+    }
+}
+
+.no-results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 40px 20px;
+    /* Ensure some height to center within */
+    margin: auto;
+    color: #666;
+    /* Fallback or match user intent */
+}

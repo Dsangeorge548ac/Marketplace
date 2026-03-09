@@ -1,0 +1,151 @@
+.site-footer {
+	background: #ffffff;
+	width: 100%;
+	font-family: inherit;
+	margin-top: 4rem;
+}
+
+.site-footer-container {
+	width: 100%;
+}
+
+.footer-benefits {
+	display: flex;
+	justify-content: space-between;
+	max-width: 1540px;
+	margin: 0 auto;
+	padding: 40px 0;
+	border-bottom: 1px solid #ebebeb;
+}
+
+.benefit-item {
+	flex: 1;
+	text-align: center;
+	padding: 0 45px;
+	border-right: 1px solid #ebebeb;
+}
+
+.benefit-item:last-child {
+	border-right: none;
+}
+
+.benefit-icon {
+	margin-bottom: 20px;
+	height: 60px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.benefit-title {
+	justify-content: center;
+	font-size: 20px;
+	font-weight: 500;
+	color: #4a4a4a;
+	margin-bottom: 12px;
+}
+
+.benefit-text {
+	font-size: 15px;
+	color: #999;
+	line-height: 1.4;
+	margin-bottom: 15px;
+}
+
+.benefit-link {
+	font-size: 14px;
+	color: #3483fa;
+	text-decoration: none;
+}
+
+.benefit-link:hover {
+	text-decoration: underline;
+}
+
+.footer-more {
+	text-align: center;
+	margin-top: -18px;
+	/* Offset to overlap border */
+	display: flex;
+	justify-content: center;
+	z-index: 2;
+	position: relative;
+}
+
+.btn-more {
+	background: #ffffff;
+	border: 1px solid #ebebeb;
+	color: #333333;
+	padding: 8px 16px;
+	font-size: 14px;
+	border-radius: 4px;
+	cursor: pointer;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	transition: background 0.2s;
+}
+
+.btn-more:hover {
+	background: #f5f5f5;
+}
+
+.btn-more i {
+	font-size: 12px;
+}
+
+.footer-bottom {
+	max-width: 1540px;
+	margin: 0 auto;
+	padding: 24px 20px;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.footer-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+}
+
+.footer-links a {
+	color: #333333;
+	font-size: 13px;
+	font-weight: 500;
+	text-decoration: none;
+}
+
+.footer-links a:hover {
+	text-decoration: underline;
+	color: #3483fa;
+}
+
+.footer-copyright {
+	font-size: 12px;
+	color: #999999;
+	margin-top: 4px;
+}
+
+@media (max-width: 900px) {
+	.footer-benefits {
+		flex-direction: column;
+		padding: 0;
+		border-bottom: none;
+	}
+
+	.benefit-item {
+		border-right: none;
+		border-bottom: 1px solid #ebebeb;
+		padding: 30px 20px;
+	}
+
+	.benefit-item:last-child {
+		border-bottom: 1px solid #ebebeb;
+	}
+
+	.footer-more {
+		margin-top: -18px;
+	}
+}

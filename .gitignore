@@ -1,0 +1,8 @@
+# Credenciales y variables sensibles
+.env
+
+# Dependencias
+node_modules/
+
+# Builds
+dist/
