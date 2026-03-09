@@ -236,8 +236,23 @@ const miningCategories = ref([
                         
                         <div class="nc-grid">
                             <div v-for="(cat, index) in miningCategories.filter(c => c.isCategory)" :key="cat.id" class="nc-card">
-                                <i :class="cat.iconClass" class="nc-icon" :data-index="index"></i>
-                                <span class="nc-name">{{ cat.name }}</span>
+                                <div>
+                                    <svg class="curve-svg curve-left-cat" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M20 20C20 9 11 0 0 0H20V20Z"/>
+                                    </svg>
+                                    <div class="nc-white-container">
+                                        <div class="nc-circle-dark">
+                                            0{{ index + 1 }}
+                                        </div>
+                                    </div>
+                                    <svg class="curve-svg curve-right-cat" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M20 20C20 9 11 0 0 0H20V20Z"/>
+                                    </svg>
+                                </div>
+                                <div class="nc-content-area">
+                                    <i :class="cat.iconClass" class="nc-icon" :data-index="index"></i>
+                                    <span class="nc-name">{{ cat.name }}</span>
+                                </div>
                             </div>
                         </div>
 
@@ -1351,8 +1366,8 @@ const miningCategories = ref([
 }
 
 .nc-card {
-    background: #ffffff;
-    border: 1px solid gainsboro;
+    background: #d1d5db;
+    position: relative;
     border-radius: 16px;
     padding: 60px 40px;
     display: flex;
@@ -1366,6 +1381,14 @@ const miningCategories = ref([
     cursor: pointer;
 }
 
+.nc-content-area {
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+}
+
 .nc-card:first-child, .nc-card:last-child {
     margin-top: 80px;
 }
@@ -1375,7 +1398,7 @@ const miningCategories = ref([
 }
 
 .nc-icon {
-    font-size: 54px;
+    font-size: 120px;
 }
 
 /* Icon colors mapping */
@@ -1385,9 +1408,9 @@ const miningCategories = ref([
 .nc-icon[data-index="3"] { color: #475569; } /* Slate/Gray Backup */
 
 .nc-name {
-    font-size: 14px;
+    font-size: 20px;
     font-weight: 500;
-    color: #4b5563;
+    color: black;
     text-align: center;
 }
 
@@ -1405,6 +1428,52 @@ const miningCategories = ref([
 
 .nc-cta:hover {
     background-color: #eab308;
+}
+
+/* Rounded SVG corner cutouts for Category cards */
+.nc-white-container {
+    height: 100px;
+    width: 100px;
+    background-color: white;
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-bottom-left-radius: 25px;
+}
+
+.nc-circle-dark {
+    height: 80px;
+    width: 80px;
+    background-color: #545454;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.curve-left-cat {
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    top: 0;
+    right: 100px;
+    color: white;
+}
+
+.curve-right-cat {
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    top: 100px;
+    right: 0;
+    color: white;
 }
 
 @media (max-width: 768px) {
