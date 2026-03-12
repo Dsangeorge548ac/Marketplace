@@ -1,0 +1,6 @@
+﻿user_service-1  | 
+user_service-1  | > user_service@1.0.0 start
+user_service-1  | > node src/index.js
+user_service-1  | 
+user_service-1  | User service listening at http://localhost:3000
+user_service-1  | Connected to MySQL Database

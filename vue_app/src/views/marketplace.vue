@@ -1,14 +1,15 @@
 <script setup>
 import FooterComponent from '@/components/footer/footer.vue'
-import modalPost from '@/components/modals/modal_post.vue'
 import MarketplaceLeftSidebar from '@/components/marketplace/MarketplaceLeftSidebar.vue'
 import ProductCard from '@/components/card/ProductCard.vue'
 import MarketplaceHeader from '@/components/header/Header.vue'
 import MineralTicker from '@/components/MineralTicker.vue'
 import { useMarketplace } from '@/assets/js/marketplace.js'
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 const showFilters = ref(false); // Can be kept for mobile toggle if needed, but not used in desktop flex layout
+const router = useRouter();
 
 const {
     search,
@@ -30,7 +31,6 @@ const {
     loadPage,
     handleCategoryChange,
     clearFilters,
-    showHarvestDetails,
     getCategoryName,
     getLocationName,
     goToPage,
@@ -50,6 +50,8 @@ const venezuelaStates = [
     <main>
       
         <MarketplaceHeader />
+
+        <MineralTicker />
 
         <main class="main-content">
             <div class="container-place">
@@ -89,12 +91,14 @@ const venezuelaStates = [
                             :key="item.id"
                             :title="item.name"
                             :price="item.price || 'Consultar'"
-                            :location="getLocationName(item.state)"
+                            :state="getLocationName(item.state)"
+                            :country="getLocationName(item.country)"
+                            :city="getLocationName(item.city)"
                             :quantity="item.quantity"
                             :manufacturer="item.manufacturer || item.brand || 'N/A'"
                             :category="getCategoryName(item.category)"
                             :image="getImageUrl(item.image)"
-                            @click="showHarvestDetails(item.id)"
+                            @click="router.push('/publication/' + item.id)"
                         />
                     </div>
     
@@ -122,12 +126,6 @@ const venezuelaStates = [
                 </section>
             </div>
         </main>
-    
-        <modalPost 
-            :isModalOpen="showModal"
-            :selectedHarvest="selectedHarvest"
-            @close="showModal = false"
-        />
         
         <FooterComponent />
     </main>

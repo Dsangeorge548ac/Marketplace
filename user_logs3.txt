@@ -1,0 +1,20 @@
+﻿user_service-1  | [Request] GET /auth/validate
+user_service-1  | [Request] GET /payment-methods
+user_service-1  | [Request] POST /payment-methods
+user_service-1  | Error al crear m├®todo de pago: Error: Column 'user_id' cannot be null
+user_service-1  |     at PromisePool.query (/app/node_modules/mysql2/lib/promise/pool.js:36:22)
+user_service-1  |     at createPaymentMethod (/app/src/controllers/payment_method.controller.js:32:35)
+user_service-1  |     at Layer.handle [as handle_request] (/app/node_modules/express/lib/router/layer.js:95:5)
+user_service-1  |     at next (/app/node_modules/express/lib/router/route.js:149:13)
+user_service-1  |     at Route.dispatch (/app/node_modules/express/lib/router/route.js:119:3)
+user_service-1  |     at Layer.handle [as handle_request] (/app/node_modules/express/lib/router/layer.js:95:5)
+user_service-1  |     at /app/node_modules/express/lib/router/index.js:284:15
+user_service-1  |     at Function.process_params (/app/node_modules/express/lib/router/index.js:346:12)
+user_service-1  |     at next (/app/node_modules/express/lib/router/index.js:280:10)
+user_service-1  |     at validateSession (/app/src/middleware/auth.js:26:9) {
+user_service-1  |   code: 'ER_BAD_NULL_ERROR',
+user_service-1  |   errno: 1048,
+user_service-1  |   sql: "INSERT INTO payment_methods (user_id, platform, account_holder, email_or_id) VALUES (NULL, 'Binance', 'dada', 'dada')",
+user_service-1  |   sqlState: '23000',
+user_service-1  |   sqlMessage: "Column 'user_id' cannot be null"
+user_service-1  | }

@@ -1,0 +1,128 @@
+﻿user_service-1  | 
+user_service-1  | > user_service@1.0.0 start
+user_service-1  | > node src/index.js
+user_service-1  | 
+user_service-1  | node:internal/modules/cjs/loader:1143
+user_service-1  |   throw err;
+user_service-1  |   ^
+user_service-1  | 
+user_service-1  | Error: Cannot find module './db'
+user_service-1  | Require stack:
+user_service-1  | - /app/src/controllers/payment_method.controller.js
+user_service-1  | - /app/src/routes/payment_method.routes.js
+user_service-1  | - /app/src/index.js
+user_service-1  |     at Module._resolveFilename (node:internal/modules/cjs/loader:1140:15)
+user_service-1  |     at Module._load (node:internal/modules/cjs/loader:981:27)
+user_service-1  |     at Module.require (node:internal/modules/cjs/loader:1231:19)
+user_service-1  |     at require (node:internal/modules/helpers:177:18)
+user_service-1  |     at Object.<anonymous> (/app/src/controllers/payment_method.controller.js:1:12)
+user_service-1  |     at Module._compile (node:internal/modules/cjs/loader:1364:14)
+user_service-1  |     at Module._extensions..js (node:internal/modules/cjs/loader:1422:10)
+user_service-1  |     at Module.load (node:internal/modules/cjs/loader:1203:32)
+user_service-1  |     at Module._load (node:internal/modules/cjs/loader:1019:12)
+user_service-1  |     at Module.require (node:internal/modules/cjs/loader:1231:19) {
+user_service-1  |   code: 'MODULE_NOT_FOUND',
+user_service-1  |   requireStack: [
+user_service-1  |     '/app/src/controllers/payment_method.controller.js',
+user_service-1  |     '/app/src/routes/payment_method.routes.js',
+user_service-1  |     '/app/src/index.js'
+user_service-1  |   ]
+user_service-1  | }
+user_service-1  | 
+user_service-1  | Node.js v18.20.8
+user_service-1  | 
+user_service-1  | > user_service@1.0.0 start
+user_service-1  | > node src/index.js
+user_service-1  | 
+user_service-1  | node:internal/modules/cjs/loader:1143
+user_service-1  |   throw err;
+user_service-1  |   ^
+user_service-1  | 
+user_service-1  | Error: Cannot find module './db'
+user_service-1  | Require stack:
+user_service-1  | - /app/src/controllers/payment_method.controller.js
+user_service-1  | - /app/src/routes/payment_method.routes.js
+user_service-1  | - /app/src/index.js
+user_service-1  |     at Module._resolveFilename (node:internal/modules/cjs/loader:1140:15)
+user_service-1  |     at Module._load (node:internal/modules/cjs/loader:981:27)
+user_service-1  |     at Module.require (node:internal/modules/cjs/loader:1231:19)
+user_service-1  |     at require (node:internal/modules/helpers:177:18)
+user_service-1  |     at Object.<anonymous> (/app/src/controllers/payment_method.controller.js:1:12)
+user_service-1  |     at Module._compile (node:internal/modules/cjs/loader:1364:14)
+user_service-1  |     at Module._extensions..js (node:internal/modules/cjs/loader:1422:10)
+user_service-1  |     at Module.load (node:internal/modules/cjs/loader:1203:32)
+user_service-1  |     at Module._load (node:internal/modules/cjs/loader:1019:12)
+user_service-1  |     at Module.require (node:internal/modules/cjs/loader:1231:19) {
+user_service-1  |   code: 'MODULE_NOT_FOUND',
+user_service-1  |   requireStack: [
+user_service-1  |     '/app/src/controllers/payment_method.controller.js',
+user_service-1  |     '/app/src/routes/payment_method.routes.js',
+user_service-1  |     '/app/src/index.js'
+user_service-1  |   ]
+user_service-1  | }
+user_service-1  | 
+user_service-1  | Node.js v18.20.8
+user_service-1  | 
+user_service-1  | > user_service@1.0.0 start
+user_service-1  | > node src/index.js
+user_service-1  | 
+user_service-1  | node:internal/modules/cjs/loader:1143
+user_service-1  |   throw err;
+user_service-1  |   ^
+user_service-1  | 
+user_service-1  | Error: Cannot find module './db'
+user_service-1  | Require stack:
+user_service-1  | - /app/src/controllers/payment_method.controller.js
+user_service-1  | - /app/src/routes/payment_method.routes.js
+user_service-1  | - /app/src/index.js
+user_service-1  |     at Module._resolveFilename (node:internal/modules/cjs/loader:1140:15)
+user_service-1  |     at Module._load (node:internal/modules/cjs/loader:981:27)
+user_service-1  |     at Module.require (node:internal/modules/cjs/loader:1231:19)
+user_service-1  |     at require (node:internal/modules/helpers:177:18)
+user_service-1  |     at Object.<anonymous> (/app/src/controllers/payment_method.controller.js:1:12)
+user_service-1  |     at Module._compile (node:internal/modules/cjs/loader:1364:14)
+user_service-1  |     at Module._extensions..js (node:internal/modules/cjs/loader:1422:10)
+user_service-1  |     at Module.load (node:internal/modules/cjs/loader:1203:32)
+user_service-1  |     at Module._load (node:internal/modules/cjs/loader:1019:12)
+user_service-1  |     at Module.require (node:internal/modules/cjs/loader:1231:19) {
+user_service-1  |   code: 'MODULE_NOT_FOUND',
+user_service-1  |   requireStack: [
+user_service-1  |     '/app/src/controllers/payment_method.controller.js',
+user_service-1  |     '/app/src/routes/payment_method.routes.js',
+user_service-1  |     '/app/src/index.js'
+user_service-1  |   ]
+user_service-1  | }
+user_service-1  | 
+user_service-1  | Node.js v18.20.8
+user_service-1  | 
+user_service-1  | > user_service@1.0.0 start
+user_service-1  | > node src/index.js
+user_service-1  | 
+user_service-1  | node:internal/modules/cjs/loader:1143
+user_service-1  |   throw err;
+user_service-1  |   ^
+user_service-1  | 
+user_service-1  | Error: Cannot find module './db'
+user_service-1  | Require stack:
+user_service-1  | - /app/src/controllers/payment_method.controller.js
+user_service-1  | - /app/src/routes/payment_method.routes.js
+user_service-1  | - /app/src/index.js
+user_service-1  |     at Module._resolveFilename (node:internal/modules/cjs/loader:1140:15)
+user_service-1  |     at Module._load (node:internal/modules/cjs/loader:981:27)
+user_service-1  |     at Module.require (node:internal/modules/cjs/loader:1231:19)
+user_service-1  |     at require (node:internal/modules/helpers:177:18)
+user_service-1  |     at Object.<anonymous> (/app/src/controllers/payment_method.controller.js:1:12)
+user_service-1  |     at Module._compile (node:internal/modules/cjs/loader:1364:14)
+user_service-1  |     at Module._extensions..js (node:internal/modules/cjs/loader:1422:10)
+user_service-1  |     at Module.load (node:internal/modules/cjs/loader:1203:32)
+user_service-1  |     at Module._load (node:internal/modules/cjs/loader:1019:12)
+user_service-1  |     at Module.require (node:internal/modules/cjs/loader:1231:19) {
+user_service-1  |   code: 'MODULE_NOT_FOUND',
+user_service-1  |   requireStack: [
+user_service-1  |     '/app/src/controllers/payment_method.controller.js',
+user_service-1  |     '/app/src/routes/payment_method.routes.js',
+user_service-1  |     '/app/src/index.js'
+user_service-1  |   ]
+user_service-1  | }
+user_service-1  | 
+user_service-1  | Node.js v18.20.8

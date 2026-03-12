@@ -32,6 +32,7 @@ const normalizeRole = (r) => r && r.toLowerCase();
 const isDeveloper = computed(() => user.value && normalizeRole(user.value.role) === 'developer');
 const isAdmin = computed(() => user.value && (normalizeRole(user.value.role) === 'administrador' || normalizeRole(user.value.role) === 'developer'));
 const isUser = computed(() => user.value && normalizeRole(user.value.role) === 'usuario');
+const isPaymentManager = computed(() => user.value && (normalizeRole(user.value.role) === 'developer' || normalizeRole(user.value.role) === 'asociado'));
 
 onMounted(async () => {
     // Debug para verificar que la variable de entorno carga bien
@@ -140,6 +141,12 @@ async function handleLogout() {
                                 <RouterLink to="/account" class="app-nav-link">
                                     <i class='bx bx-user-circle'></i>
                                     <span>Mi Cuenta</span>
+                                </RouterLink>
+                            </li>
+                            <li v-if="isPaymentManager">
+                                <RouterLink to="/payment-methods" class="app-nav-link" active-class="active">
+                                    <i class='bx bx-wallet'></i>
+                                    <span>Métodos de Pago</span>
                                 </RouterLink>
                             </li>
                             <li v-if="isDeveloper">

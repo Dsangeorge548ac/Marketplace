@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
@@ -9,25 +9,55 @@ import HomeHeader from '@/components/header/Header.vue';
 import MineralTicker from '@/components/MineralTicker.vue';
 import MarketplaceFooter from '@/components/footer/footer.vue';
 import ProductCard from '@/components/card/ProductCard.vue';
-import modalPost from '@/components/modals/modal_post.vue';
 import { useMarketplace } from '@/assets/js/marketplace.js';
+import { useRouter } from 'vue-router';
+import mineralOro from '@/assets/img/mineral_oro.png';
+import mineralCassiterita from '@/assets/img/mineral_cassiterita.png';
+import mineralColtan from '@/assets/img/mineral_coltan.png';
+import mineralPlata from '@/assets/img/mineral_plata.png';
+import mineralRodio from '@/assets/img/mineral_rodio.png';
+import mineralZafiro from '@/assets/img/mineral_zafiro.png';
+import mineralPlatino from '@/assets/img/mineral_platino.png';
+import mineralCobalto from '@/assets/img/mineral_cobalto.jpg';
+
+import bgMaquinaria from '@/assets/img/bg_maquinaria.png';
+import bgMinerales from '@/assets/img/bg_minerales.png';
+import bgProcesamiento from '@/assets/img/bg_procesamiento.png';
+import bgEquipos from '@/assets/img/bg_equipos.png';
+
+import bg1 from '@/assets/img/img37.jpeg';
+import bg2 from '@/assets/img/img38.jpeg';
+import bg3 from '@/assets/img/img40.jpeg';
 
 const modules = [Navigation];
 
 const { 
     products, 
-    showModal, 
-    selectedHarvest, 
-    showHarvestDetails, 
     getCategoryName, 
     getLocationName, 
-    getImageUrl 
+    getImageUrl
 } = useMarketplace();
+
+const router = useRouter();
+
+const redirect = () => {
+    router.push('/marketplace');
+};
+
+const redirectWSP = () => {
+    window.open('https://api.whatsapp.com/send/?phone=0584148755808&text&type=phone_number&app_absent=0', '_blank');
+};
 
 const fabrimineProducts = computed(() => {
     return products.value.filter(item => 
         (item.manufacturer && item.manufacturer.includes('Fabrimine')) ||
         (item.brand && item.brand.includes('Fabrimine'))
+    );
+});
+
+const mineralsProducts = computed(() => {
+    return products.value.filter(item => 
+        (item.category && item.category.includes('Minerales'))
     );
 });
 
@@ -39,27 +69,159 @@ const productsBreakpoints = {
     1280: { slidesPerView: 4, spaceBetween: 20 },
 };
 
+const MineralsBreakpoints = {
+    320: { slidesPerView: 1.2, spaceBetween: 15 },
+    540: { slidesPerView: 3.2, spaceBetween: 15 },
+    768: { slidesPerView: 5.2, spaceBetween: 15 },
+    1024: { slidesPerView: 6, spaceBetween: 20 },
+    1280: { slidesPerView: 7, spaceBetween: 20 },
+};
+
+
 // Categories & subcategories sourced from categories.js (12 items)
 const miningCategories = ref([
     // --- Maquinaria Pesada ---
-    { id: 1,  name: 'Maquinaria Pesada',              iconClass: 'fa-solid fa-truck-monster',   isCategory: true },
-    { id: 2,  name: 'Excavadoras Hidráulicas',         iconClass: 'fa-solid fa-tractor',          isCategory: false },
+    { id: 1,  name: 'Maquinaria Pesada',               iconClass: 'fa-solid fa-truck-monster',   isCategory: true, bgImage: bgMaquinaria },
+    { id: 2,  name: 'Minerales',                       iconClass: 'fa-solid fa-gem',              isCategory: true, bgImage: bgMinerales },
     { id: 3,  name: 'Camiones Rígidos y Articulados',  iconClass: 'fa-solid fa-truck',            isCategory: false },
     { id: 4,  name: 'Tractores de Oruga (Dozers)',     iconClass: 'fa-solid fa-road-spikes',      isCategory: false },
 
     // --- Procesamiento de Minerales ---
-    { id: 5,  name: 'Procesamiento de Minerales',     iconClass: 'fa-solid fa-gears',            isCategory: true },
+    { id: 5,  name: 'Procesamiento de Minerales',      iconClass: 'fa-solid fa-gears',            isCategory: true, bgImage: bgProcesamiento },
     { id: 6,  name: 'Trituración / Chancado',          iconClass: 'fa-solid fa-circle-nodes',     isCategory: false },
     { id: 7,  name: 'Molienda',                        iconClass: 'fa-solid fa-rotate',           isCategory: false },
     { id: 8,  name: 'Concentración',                   iconClass: 'fa-solid fa-flask',            isCategory: false },
 
     // --- Equipos Auxiliares e Insumos ---
-    { id: 9,  name: 'Equipos Auxiliares e Insumos',   iconClass: 'fa-solid fa-toolbox',          isCategory: true },
+    { id: 9,  name: 'Equipos Auxiliares e Insumos',    iconClass: 'fa-solid fa-toolbox',          isCategory: true, bgImage: bgEquipos },
     { id: 10, name: 'Sistemas de Bombeo',              iconClass: 'fa-solid fa-water',            isCategory: false },
     { id: 11, name: 'Repuestos y Consumibles',         iconClass: 'fa-solid fa-wrench',           isCategory: false },
     { id: 12, name: 'Seguridad (EPP)',                 iconClass: 'fa-solid fa-hard-hat',         isCategory: false },
 ]);
 
+const minerals = ref([
+    { id: 1, name: 'Oro', image: mineralOro },
+    { id: 2, name: 'Cassiterita', image: mineralCassiterita },
+    { id: 3, name: 'Coltán', image: mineralColtan },
+    { id: 4, name: 'Plata', image: mineralPlata },
+    { id: 5, name: 'Rodio', image: mineralRodio },
+    { id: 6, name: 'Zafiro', image: mineralZafiro },
+    { id: 7, name: 'Platino', image: mineralPlatino },
+    { id: 8, name: 'Cobalto', image: mineralCobalto },
+]);
+
+
+const currentSlideIndex = ref(0);
+const isPlaying = ref(true);
+let slideInterval = null;
+
+const slides = ref([
+    {
+        id: 1,
+        title: 'Optimiza tu operación hoy',
+        subtitle: 'Encuentra maquinaria pesada y procesadoras para revolucionar tu mina.',
+        buttonText: 'Ver promociones',
+        buttonLink: '/marketplace',
+        image: bgMaquinaria,
+        bgColor: '#4A2511', // Tono marrón del ejemplo
+        textColor: '#FFFFFF',
+    },
+    {
+        id: 2,
+        title: 'Procesamiento eficiente',
+        subtitle: 'Equipos de molienda y trituración de alta confiabilidad.',
+        buttonText: 'Explorar ahora',
+        buttonLink: '/marketplace',
+        image: bgProcesamiento,
+        bgColor: '#113a4a', // Azul oscuro industrial
+        textColor: '#FFFFFF',
+    },
+    {
+        id: 3,
+        title: 'Insumos y Seguridad',
+        subtitle: 'Todo lo que necesitas para operar con seguridad y sin interrupciones.',
+        buttonText: 'Ver catálogo',
+        buttonLink: '/marketplace',
+        image: bgEquipos,
+        bgColor: '#2a4a11', // Verde oscuro industrial
+        textColor: '#FFFFFF',
+    }
+]);
+
+const currentSlideData = computed(() => slides.value[currentSlideIndex.value]);
+
+const nextSlide = () => {
+    currentSlideIndex.value = (currentSlideIndex.value + 1) % slides.value.length;
+};
+
+const prevSlide = () => {
+    currentSlideIndex.value = (currentSlideIndex.value - 1 + slides.value.length) % slides.value.length;
+};
+
+const setSlide = (index) => {
+    currentSlideIndex.value = index;
+    resetInterval();
+};
+
+const togglePlay = () => {
+    isPlaying.value = !isPlaying.value;
+    if (isPlaying.value) {
+        startInterval();
+    } else {
+        clearInterval(slideInterval);
+    }
+};
+
+const startInterval = () => {
+    slideInterval = setInterval(nextSlide, 5000);
+};
+
+const resetInterval = () => {
+    if (isPlaying.value) {
+        clearInterval(slideInterval);
+        startInterval();
+    }
+};
+
+// --- Projects Slider Logic ---
+const currentProjectSlideIndex = ref(0);
+const isProjectPlaying = ref(true);
+let projectSlideInterval = null;
+
+const projectsSlides = ref([
+    { id: 1, image: bg1},
+    { id: 2, image: bg2 },
+    { id: 3, image: bg3 }
+]);
+
+const currentProjectSlideData = computed(() => projectsSlides.value[currentProjectSlideIndex.value]);
+
+const nextProjectSlide = () => {
+    currentProjectSlideIndex.value = (currentProjectSlideIndex.value + 1) % projectsSlides.value.length;
+};
+
+const toggleProjectPlay = () => {
+    isProjectPlaying.value = !isProjectPlaying.value;
+    if (isProjectPlaying.value) {
+        startProjectInterval();
+    } else {
+        clearInterval(projectSlideInterval);
+    }
+};
+
+const startProjectInterval = () => {
+    projectSlideInterval = setInterval(nextProjectSlide, 5000);
+};
+
+onMounted(() => {
+    startInterval();
+    startProjectInterval();
+});
+
+onUnmounted(() => {
+    clearInterval(slideInterval);
+    clearInterval(projectSlideInterval);
+});
 
 </script>
 
@@ -70,74 +232,78 @@ const miningCategories = ref([
         
         <main class="home-main">
 
-             <!-- New Hero Banner Section (eBay Style for Mining) -->
+             <!-- New Hero Banner Section (Dynamic Slider) -->
             <section class="mining-hero-section">
-                <div class="mining-hero-container">
-                    <div class="overlay"></div>
+                <div class="mining-hero-container" :style="{ backgroundColor: currentSlideData.bgColor }">
                     <!-- Left Content -->
                     <div class="hero-left-content">
-                        <h2 class="hero-main-title">Optimiza tu operación</h2>
-                        <p class="hero-subtitle">Encuentra la maquinaria y repuestos pesados para revolucionar tu mina.</p>
-                        <button class="hero-action-btn">Comprar maquinaria</button>
+                        <h2 class="hero-main-title" :style="{ color: currentSlideData.textColor }">{{ currentSlideData.title }}</h2>
+                        <p class="hero-subtitle" :style="{ color: currentSlideData.textColor }">{{ currentSlideData.subtitle }}</p>
+                        <button class="hero-action-btn" @click="router.push(currentSlideData.buttonLink)">{{ currentSlideData.buttonText }}</button>
                     </div>
 
-                    
+                    <!-- Right Image Content -->
+                    <div class="hero-right-image">
+                        <img :src="currentSlideData.image" alt="Banner Image">
+                    </div>
+
+                    <!-- Bottom Controls -->
+                    <div class="hero-controls-wrapper">
+                        <div class="hero-terms">
+                            Limited time. Select items. 10x use.
+                        </div>
+                        <div class="hero-dots">
+                            <span 
+                                v-for="(slide, index) in slides" 
+                                :key="slide.id" 
+                                class="dot" 
+                                :class="{ active: currentSlideIndex === index }"
+                                @click="setSlide(index)">
+                            </span>
+                        </div>
+                        <div class="hero-actions">
+                            <button class="control-btn" @click="prevSlide(); resetInterval()"><i class='bx bx-chevron-left'></i></button>
+                            <button class="control-btn" @click="nextSlide(); resetInterval()"><i class='bx bx-chevron-right'></i></button>
+                            <button class="control-btn" @click="togglePlay">
+                                <i class='bx' :class="isPlaying ? 'bx-pause' : 'bx-play'"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </section>
-            
 
             <!-- ── Minerales Destacados ─────────────────────────────── -->
             <section class="minerals-section">
                 <div class="minerals-container">
                     <div class="minerals-header">
                         <h2>Minerales en el mercado</h2>
-                        <a href="#" class="minerals-see-all">Ver todos <i class='bx bx-chevron-right'></i></a>
+                        <router-link to="/marketplace" class="minerals-see-all">Ir al marketplace <i class='bx bx-chevron-right'></i></router-link>
                     </div>
-                    <div class="minerals-scroll">
-                        <a href="#" class="mineral-card">
-                            <div class="mineral-img-wrap">
-                                <img src="@/assets/img/mineral_oro.png" alt="Oro" />
-                            </div>
-                            <span class="mineral-name">Oro</span>
-                        </a>
-                        <a href="#" class="mineral-card">
-                            <div class="mineral-img-wrap">
-                                <img src="@/assets/img/mineral_cassiterita.png" alt="Cassiterita" />
-                            </div>
-                            <span class="mineral-name">Cassiterita</span>
-                        </a>
-                        <a href="#" class="mineral-card">
-                            <div class="mineral-img-wrap">
-                                <img src="@/assets/img/mineral_coltan.png" alt="Coltán" />
-                            </div>
-                            <span class="mineral-name">Coltán</span>
-                        </a>
-                        <a href="#" class="mineral-card">
-                            <div class="mineral-img-wrap">
-                                <img src="@/assets/img/mineral_plata.png" alt="Plata" />
-                            </div>
-                            <span class="mineral-name">Plata</span>
-                        </a>
-                        <a href="#" class="mineral-card">
-                            <div class="mineral-img-wrap">
-                                <img src="@/assets/img/mineral_rodio.png" alt="Rodio" />
-                            </div>
-                            <span class="mineral-name">Rodio</span>
-                        </a>
-                        <a href="#" class="mineral-card">
-                            <div class="mineral-img-wrap">
-                                <img src="@/assets/img/mineral_zafiro.png" alt="Zafiro" />
-                            </div>
-                            <span class="mineral-name">Zafiro</span>
-                        </a>
-                        <a href="#" class="mineral-card">
-                            <div class="mineral-img-wrap">
-                                <img src="@/assets/img/mineral_platino.png" alt="Platino" />
-                            </div>
-                            <span class="mineral-name">Platino</span>
-                        </a>
+                   
+                    <div>
+                        <div v-if="minerals.length > 0" class="swiper-products-wrapper">
+                            <Swiper 
+                                :modules="modules" 
+                                :breakpoints="MineralsBreakpoints" 
+                                :navigation="{ nextEl: '.custom-swiper-next', prevEl: '.custom-swiper-prev' }"
+                                class="products-swiper"
+                            >
+                                <SwiperSlide v-for="item in minerals" :key="item.id">
+                                    <a href="#" class="mineral-card">
+                                        <div class="mineral-img-wrap">
+                                            <img :src="item.image" :alt="item.name" />
+                                        </div>
+                                        <span class="mineral-name">{{ item.name }}</span>
+                                    </a>
+                                </SwiperSlide>
+                            </Swiper>
+                        </div>
+                        <div v-else class="loading-products">
+                            <p>Cargando Minerales...</p>
+                        </div>
                     </div>
                 </div>
+                
             </section>
 
             <!-- Productos Recientes Section -->
@@ -172,7 +338,7 @@ const miningCategories = ref([
                                     :manufacturer="item.manufacturer || item.brand || 'N/A'"
                                     :category="getCategoryName(item.category)"
                                     :image="getImageUrl(item.image)"
-                                    @click="showHarvestDetails(item.id)"
+                                    @click="router.push('/publication/' + item.id)"
                                 />
                             </SwiperSlide>
                         </Swiper>
@@ -182,7 +348,6 @@ const miningCategories = ref([
                     </div>
                 </div>
             </section>
-
 
             <!-- Productos Recientes Section -->
             <section class="productos-recientes-section">
@@ -197,14 +362,14 @@ const miningCategories = ref([
                         </div>
                     </div>
                     
-                    <div v-if="fabrimineProducts.length > 0" class="swiper-products-wrapper">
+                    <div v-if="mineralsProducts.length > 0 && mineralsProducts.category == 'Minerales'" class="swiper-products-wrapper">
                         <Swiper 
                             :modules="modules" 
                             :breakpoints="productsBreakpoints" 
                             :navigation="{ nextEl: '.custom-swiper-next', prevEl: '.custom-swiper-prev' }"
                             class="products-swiper"
                         >
-                            <SwiperSlide v-for="item in fabrimineProducts" :key="item.id">
+                            <SwiperSlide v-for="item in mineralsProducts" :key="item.id">
                                 <ProductCard
                                     :item="item"
                                     :title="item.name"
@@ -216,7 +381,7 @@ const miningCategories = ref([
                                     :manufacturer="item.manufacturer || item.brand || 'N/A'"
                                     :category="getCategoryName(item.category)"
                                     :image="getImageUrl(item.image)"
-                                    @click="showHarvestDetails(item.id)"
+                                    @click="router.push('/publication/' + item.id)"
                                 />
                             </SwiperSlide>
                         </Swiper>
@@ -228,14 +393,14 @@ const miningCategories = ref([
             </section>
 
 
-         
-            
-                <section class="new-categories-section">
+    
+                <section class="new-categories-section" v-show="false">
                     <div class="nc-container">
                         <h2 class="nc-main-title">Categorías disponibles en nuestro Marketplace B2B</h2>
                         
                         <div class="nc-grid">
-                            <div v-for="(cat, index) in miningCategories.filter(c => c.isCategory)" :key="cat.id" class="nc-card">
+                            <div v-for="(cat, index) in miningCategories.filter(c => c.isCategory)" :key="cat.id" class="nc-card" :style="{ backgroundImage: `url(${cat.bgImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }">
+                                <div class="nc-overlay"></div>
                                 <div>
                                     <svg class="curve-svg curve-left-cat" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                         <path d="M20 20C20 9 11 0 0 0H20V20Z"/>
@@ -256,19 +421,22 @@ const miningCategories = ref([
                             </div>
                         </div>
 
-                        <button class="nc-cta">Explorar todas las categorías</button>
+                        <button class="nc-cta" @click="redirect">Explorar El marketplace</button>
                     </div>
                 </section>
 
+
             <!-- Servicios Mineros -->
-            <section class="services-section">
+            <section class="services-section" id="services">
                 <div class="services-container">
 
+                    <h2 class="nc-main-title">Servicios que ofrecemos a nuestros clientes mineros</h2>
+                        
                     <div class="services-header">
-                        <div>
+                        <div style="visibility: hidden;">
                             <h2 class="services-title">Servicios Mineros</h2>
                         </div>
-                        <p class="services-subtitle">Servicios especializados para optimizar tu operación minera de principio a fin.</p>
+                        <p class="services-subtitle" style="visibility: hidden;">Servicios especializados para optimizar tu operación minera de principio a fin.</p>
                     </div>
 
                     <div class="services-grid">
@@ -303,6 +471,7 @@ const miningCategories = ref([
                                     <li><i class="fa-solid fa-check"></i> Hidráulica industrial</li>
                                 </ul>
                             </div>
+                            <button class="nc-cta" @click="redirectWSP">Mas Información</button>
                         </div>
 
                         <!-- Card 2 -->
@@ -333,6 +502,7 @@ const miningCategories = ref([
                                     <li><i class="fa-solid fa-check"></i> Flota certificada</li>
                                 </ul>
                             </div>
+                            <button class="nc-cta" @click="redirectWSP">Mas Información</button>
                         </div>
 
                         <!-- Card 3 -->
@@ -363,6 +533,7 @@ const miningCategories = ref([
                                     <li><i class="fa-solid fa-check"></i> Mapeo geológico</li>
                                 </ul>
                             </div>
+                            <button class="nc-cta" @click="redirectWSP">Mas Información</button>
                         </div>
 
                         <!-- Card 4 -->
@@ -393,25 +564,41 @@ const miningCategories = ref([
                                     <li><i class="fa-solid fa-check"></i> Última milla minera</li>
                                 </ul>
                             </div>
+                            <button class="nc-cta" @click="redirectWSP">Mas Información</button>
                         </div>
-
                     </div>
                 </div>
             </section>
 
             <!-- Crowdfunding Section (Fabrimine Projects) -->
             <section class="crowdfunding-section">
+                
                 <div class="cf-container">
                     <div class="cf-header">
                         <h4 class="cf-eyebrow">Proyectos Mineros</h4>
                         <h2 class="cf-title">Conoce nuestra trayectoria impulsando el desarrollo minero</h2>
                         <p class="cf-subtitle">Descubre cómo Fabrimine ha diseñado, fabricado e implementado soluciones integrales para grandes proyectos en el sector de la minería, optimizando los recursos y garantizando el éxito operativo.</p>
                         <!-- For now this will just be an anchor tag link to where the projects would be -->
-                        <a href="/proyectos" class="cf-cta" style="text-decoration: none; display: inline-block;">Ver proyectos realizados</a>
+                        <router-link to="/proyectos" class="cf-cta" style="text-decoration: none; display: inline-block;">Ver proyectos realizados</router-link>
                     </div>
                     <div class="cf-image-wrapper">
-                        <!-- Placeholder image for a mining operation replaced from assets -->
-                        <img src="@/assets/img/mina.jpeg" alt="Proyecto Minero de Fabrimine" class="cf-main-img" />
+                           <div>
+                                <svg class="curve-svg curve-left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M20 20C20 9 11 0 0 0H20V20Z"/>
+                                </svg>
+                                <div class="sc-white-container">
+                                      <div class="circle-dark" @click="toggleProjectPlay" style="cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10;">
+                                          <i class='bx' :class="isProjectPlaying ? 'bx-pause' : 'bx-play'" style="font-size: 32px; margin-left: 2px;"></i>
+                                    </div>
+                                </div>
+                                <svg class="curve-svg curve-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M20 20C20 9 11 0 0 0H20V20Z"/>
+                                </svg>
+                            </div>
+
+                        <transition name="projects-fade" mode="out-in">
+                            <img :key="currentProjectSlideData.id" :src="currentProjectSlideData.image" alt="Proyecto Minero de Fabrimine" class="cf-main-img" />
+                        </transition>
                     </div>
                 </div>
             </section>
@@ -419,12 +606,6 @@ const miningCategories = ref([
         </main>
         
         <MarketplaceFooter />
-        
-        <modalPost 
-            :isModalOpen="showModal"
-            :selectedHarvest="selectedHarvest"
-            @close="showModal = false"
-        />
     </div>
 </template>
 
@@ -770,36 +951,22 @@ const miningCategories = ref([
     opacity: 0.75;
 }
 
-
-/* --- eBay Style Mining Hero Section --- */
+/* --- eBay Style Dynamic Hero Slider --- */
 .mining-hero-section {
     max-width: 1540px;
     margin: 20px auto 40px;
     padding: 0 20px;
-    position: relative;
-}
-
-.overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1;
 }
 
 .mining-hero-container {
-    background-image: url(@/assets/img/img33.jpg);
-    background-size: cover;
-    background-position: center;
-    border-radius: 15px; /* Slightly rounded corners */
-    min-height: 440px;
+    border-radius: 12px;
+    min-height: 460px;
     display: flex;
-    align-items: stretch;
+    justify-content: space-between;
+    align-items: center;
     position: relative;
-    overflow: hidden;
     padding: 40px 60px;
+    transition: background-color 0.5s ease;
 }
 
 .hero-left-content {
@@ -809,63 +976,154 @@ const miningCategories = ref([
     justify-content: center;
     align-items: flex-start;
     padding-right: 40px;
-    position: relative;
     z-index: 2;
+    max-width: 50%;
 }
 
 .hero-main-title {
-    color: #ffffff;
-    font-size: 44px;
+    font-size: 40px;
     font-weight: 700;
     margin: 0 0 16px 0;
     line-height: 1.1;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: inherit;
+    transition: color 0.5s ease;
 }
 
 .hero-subtitle {
-    color: #ffffff;
     font-size: 17px;
     font-weight: 400;
     margin: 0 0 32px 0;
-    font-family: inherit;
+    transition: color 0.5s ease;
 }
 
 .hero-action-btn {
-    background-color: #ffffff; /* Deep brown matching reference */
-    color: #000000;
+    background-color: #faf5eb;
+    color: #4A2511;
     border: none;
-    border-radius: 20px; /* Pill button styling */
-    padding: 12px 24px;
-    font-size: 16px;
+    border-radius: 24px;
+    padding: 12px 28px;
+    font-size: 15px;
     font-weight: 700;
     cursor: pointer;
-    transition: background-color 0.2s, transform 0.1s;
+    transition: transform 0.1s;
 }
 
 .hero-action-btn:hover {
-    background-color: rgba(255, 255, 255, 0.562);
+    transform: scale(1.02);
 }
 
+.hero-right-image {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    max-width: 50%;
+    z-index: 2;
+}
+
+.hero-right-image img {
+    max-width: 100%;
+    object-fit: cover;
+    border-radius: 16px;
+    height: 320px;
+    width: 100%;
+}
+
+.hero-controls-wrapper {
+    position: absolute;
+    bottom: 20px;
+    left: 60px;
+    right: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 3;
+}
+
+.hero-terms {
+    color: #ffffff;
+    font-size: 13px;
+    flex: 1;
+}
+
+.hero-dots {
+    display: flex;
+    gap: 8px;
+    flex: 1;
+    justify-content: center;
+}
+
+.hero-dots .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid #fff;
+    cursor: pointer;
+    background-color: transparent;
+    transition: background-color 0.2s;
+}
+
+.hero-dots .dot.active {
+    background-color: #ffffff;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 8px;
+    flex: 1;
+    justify-content: flex-end;
+}
+
+.control-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #333;
+    font-size: 18px;
+    transition: background-color 0.2s;
+}
+
+.control-btn:hover {
+    background-color: #f0f0f0;
+}
 
 @media (max-width: 1024px) {
     .mining-hero-container {
         flex-direction: column;
         padding: 40px 30px 80px;
+        text-align: center;
     }
     
     .hero-left-content {
+        max-width: 100%;
         padding-right: 0;
-        text-align: center;
         align-items: center;
+        margin-bottom: 30px;
     }
-}
 
-@media (max-width: 768px) {
     .hero-main-title {
         font-size: 32px;
     }
-    .hero-action-btn {
-        padding: 10px 20px;
+
+    .hero-right-image {
+        max-width: 100%;
+        justify-content: center;
+    }
+    
+    .hero-controls-wrapper {
+        left: 30px;
+        right: 30px;
+        flex-direction: column;
+        gap: 15px;
+    }
+    .hero-terms, .hero-actions {
+        display: none; /* Hide extraneous controls on small screens to save space */
     }
 }
 
@@ -1025,7 +1283,7 @@ const miningCategories = ref([
 
 /* ── Service Card ────────────────────────────────────────── */
 .service-card {
-    background: gainsboro;
+    background: #e5e5e5;
     border-radius: 16px;
     padding: 32px 32px;
     height: 600px;
@@ -1038,22 +1296,8 @@ const miningCategories = ref([
     position: relative;
 }
 
-.service-card-2, .service-card-4{
+.service-card:nth-child(even) {
     margin-top: 80px;
-}
-
-.service-card-4 {
-    background: gainsboro;
-    border-radius: 16px;
-    padding: 32px 32px;
-    height: 600px;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    overflow: hidden;
-    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
-    cursor: pointer;
-    position: relative;
 }
 
 .service-card:hover {
@@ -1223,7 +1467,7 @@ const miningCategories = ref([
 @media (max-width: 1100px) {
     .services-grid { grid-template-columns: repeat(2, 1fr); }
     .services-subtitle { text-align: left; align-self: auto; }
-    .service-card-2, .service-card-4{
+    .service-card:nth-child(even) {
         margin-top: 0px;
     }
 }
@@ -1299,8 +1543,9 @@ const miningCategories = ref([
 }
 
 .cf-image-wrapper {
+    position: relative;
     width: 100%;
-    background-color: #ededed;
+    background-color: #e5e5e5;
     padding: 100px;
     border-radius: 24px;
     display: flex;
@@ -1315,6 +1560,16 @@ const miningCategories = ref([
     object-fit: cover;
     border-radius: 16px;
     display: block;
+}
+
+.projects-fade-enter-active,
+.projects-fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.projects-fade-enter-from,
+.projects-fade-leave-to {
+  opacity: 0;
 }
 
 @media (max-width: 768px) {
@@ -1332,7 +1587,7 @@ const miningCategories = ref([
 
 /* --- New Categories Grid Section --- */
 .new-categories-section {
-    max-width: 1200px;
+    max-width: 1540px;
     margin: 80px auto;
     padding: 0 20px;
     display: flex;
@@ -1341,7 +1596,6 @@ const miningCategories = ref([
 
 .nc-container {
     width: 100%;
-    max-width: 1540px;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -1355,29 +1609,32 @@ const miningCategories = ref([
     line-height: 1.25;
     margin: 0 0 50px 0;
     max-width: 500px;
+    margin: auto;
+    align-items: center;
+    text-align: center;
 }
 
 .nc-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 24px;
     width: 100%;
     margin-bottom: 60px;
 }
 
 .nc-card {
-    background: #d1d5db;
+    background: #e5e5e5;
     position: relative;
-    border-radius: 16px;
-    padding: 60px 40px;
+    border-radius: 20px;
+    padding: 40px;
     display: flex;
     height: 600px;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 20px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
 }
 
@@ -1386,32 +1643,45 @@ const miningCategories = ref([
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 40px;
+    gap: 20px;
 }
 
-.nc-card:first-child, .nc-card:last-child {
+.nc-card:nth-child(even) {
     margin-top: 80px;
 }
 
 .nc-card:hover {
-    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    box-shadow: 0 16px 32px rgba(0,0,0,0.08);
+}
+
+.nc-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.7));
+    border-radius: 20px;
+    z-index: 0;
+    transition: opacity 0.3s ease;
+}
+
+.nc-card:hover .nc-overlay {
+    opacity: 0.7;
 }
 
 .nc-icon {
-    font-size: 120px;
+    font-size: 80px;
+    color: #fac819;
+    filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.6));
 }
 
-/* Icon colors mapping */
-.nc-icon[data-index="0"] { color: #bc9f62; } /* Gold-ish */
-.nc-icon[data-index="1"] { color: #f43f5e; } /* Pink/Red-ish */
-.nc-icon[data-index="2"] { color: #22c55e; } /* Bright Green */
-.nc-icon[data-index="3"] { color: #475569; } /* Slate/Gray Backup */
-
 .nc-name {
-    font-size: 20px;
-    font-weight: 500;
-    color: black;
+    font-size: 19px;
+    font-weight: 700;
+    color: #ffffff;
     text-align: center;
+    text-shadow: 0 4px 8px rgba(0,0,0,0.9);
 }
 
 .nc-cta {
@@ -1432,30 +1702,33 @@ const miningCategories = ref([
 
 /* Rounded SVG corner cutouts for Category cards */
 .nc-white-container {
-    height: 100px;
-    width: 100px;
+    height: 80px;
+    width: 80px;
     background-color: white;
     position: absolute;
     top: 0;
     right: 0;
     border-bottom-left-radius: 25px;
+    z-index: 2;
 }
 
 .nc-circle-dark {
-    height: 80px;
-    width: 80px;
-    background-color: #545454;
+    height: 48px;
+    width: 48px;
+    background-color: #4b5563;
     border-radius: 50%;
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 16px;
+    right: 16px;
     text-align: center;
-    font-size: 20px;
-    font-weight: bold;
+    font-size: 16px;
+    font-weight: 700;
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    z-index: 2;
 }
 
 .curve-left-cat {
@@ -1463,17 +1736,19 @@ const miningCategories = ref([
     width: 30px;
     position: absolute;
     top: 0;
-    right: 100px;
+    right: 80px;
     color: white;
+    z-index: 2;
 }
 
 .curve-right-cat {
     height: 30px;
     width: 30px;
     position: absolute;
-    top: 100px;
+    top: 80px;
     right: 0;
     color: white;
+    z-index: 2;
 }
 
 @media (max-width: 768px) {

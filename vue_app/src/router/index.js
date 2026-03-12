@@ -7,7 +7,9 @@ import dashboardView from '@/views/dashboard.vue';
 import usersView from '@/views/users.vue';
 import ordersView from '@/views/orders.vue';
 import publicationsView from '@/views/publications.vue';
+import paymentMethodsView from '@/views/payment_methods.vue';
 import noticesDashboardView from '@/components/dashboard/noticesDashboard.vue';
+import PublicationDetail from '@/views/PublicationDetail.vue';
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -31,6 +33,11 @@ const router = createRouter({
       path: '/noticias',
       name: 'noticias',
       component: noticiasView
+    },
+    {
+      path: '/publication/:id',
+      name: 'publication-detail',
+      component: PublicationDetail
     },
     {
       // Grupo de Layout del Dashboard
@@ -67,6 +74,12 @@ const router = createRouter({
           name: 'orders',
           component: ordersView,
           meta: { roles: ['Administrador', 'Developer', 'Usuario', 'Asociado'] }
+        },
+        {
+          path: '/payment-methods',
+          name: 'payment-methods',
+          component: paymentMethodsView,
+          meta: { roles: ['Developer', 'Asociado'] }
         }
       ]
     }

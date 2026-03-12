@@ -1,6 +1,6 @@
 <script setup>
 import { defineAsyncComponent } from 'vue'
-import sidebar from '@/components/sidebar/sidebar.vue'
+import { useRouter } from 'vue-router';
 import { useDashboardPublications } from '@/assets/js/dashboard_publications.js'
 import { isSidebarOpen } from '@/assets/js/dashboardState.js'
 import ProductCard from '@/components/card/ProductCard.vue'
@@ -9,6 +9,7 @@ import ProductCard from '@/components/card/ProductCard.vue'
 const modalPost = defineAsyncComponent(() => import('@/components/modals/modal_post.vue'))
 const createPostModal = defineAsyncComponent(() => import('@/components/modals/create_post_modal.vue'))
 const EditPostModal = defineAsyncComponent(() => import('@/components/modals/EditPostModal.vue'))
+const router = useRouter();
 
 const {
     user,
@@ -84,11 +85,13 @@ const {
                         :price="item.price || 'Consultar'"
                         :quantity="item.quantity"
                         :category="item.category || 'N/A'"
-                        :location="item.state || 'No especificada'"
+                        :state="item.state || 'No especificada'"
+                        :country="item.country"
+                        :city="item.city"
                         :manufacturer="item.manufacturer || 'N/A'"
                         :image="getImageUrl(item.image)"
                         :rating="item.rating || 4.9"
-                        @click="showHarvestDetails(item.id)"
+                        @click="router.push('/publication/' + item.id)"
                     >
                         <template #actions>
                             <div class="dashboard-card-actions">
@@ -154,9 +157,9 @@ const {
 <style scoped>
 .dashboard-card-actions {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     gap: 8px;
-    width: 100%;
+    margin: 0 20px 20px; 
 }
 
 .action-btn {

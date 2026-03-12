@@ -3,8 +3,9 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser'); // Added
-const authRoutes = require('./routes/auth.routes'); // Added
+const authRoutes = require('./routes/auth.routes');
 const userRoutes = require('./routes/user.routes');
+const paymentMethodRoutes = require('./routes/payment_method.routes');
 
 dotenv.config();
 
@@ -28,6 +29,7 @@ app.use(express.urlencoded({ extended: true })); // Added
 
 // Routes
 app.use('/auth', authRoutes);
+app.use('/payment-methods', paymentMethodRoutes); // Register payment methods endpoints
 app.use('/', userRoutes);
 
 // Debug 404
