@@ -20,10 +20,10 @@ import mineralZafiro from '@/assets/img/mineral_zafiro.png';
 import mineralPlatino from '@/assets/img/mineral_platino.png';
 import mineralCobalto from '@/assets/img/mineral_cobalto.jpg';
 
-import bgMaquinaria from '@/assets/img/bg_maquinaria.png';
-import bgMinerales from '@/assets/img/bg_minerales.png';
-import bgProcesamiento from '@/assets/img/bg_procesamiento.png';
-import bgEquipos from '@/assets/img/bg_equipos.png';
+import bgh1 from '@/assets/img/img35.jpg';
+import bgh2 from '@/assets/img/img36.jpg';
+import bgh3 from '@/assets/img/img37.jpeg';
+import bgh4 from '@/assets/img/mineral_cobalto.jpg';
 
 import bg1 from '@/assets/img/img37.jpeg';
 import bg2 from '@/assets/img/img38.jpeg';
@@ -77,28 +77,6 @@ const MineralsBreakpoints = {
     1280: { slidesPerView: 7, spaceBetween: 20 },
 };
 
-
-// Categories & subcategories sourced from categories.js (12 items)
-const miningCategories = ref([
-    // --- Maquinaria Pesada ---
-    { id: 1,  name: 'Maquinaria Pesada',               iconClass: 'fa-solid fa-truck-monster',   isCategory: true, bgImage: bgMaquinaria },
-    { id: 2,  name: 'Minerales',                       iconClass: 'fa-solid fa-gem',              isCategory: true, bgImage: bgMinerales },
-    { id: 3,  name: 'Camiones Rígidos y Articulados',  iconClass: 'fa-solid fa-truck',            isCategory: false },
-    { id: 4,  name: 'Tractores de Oruga (Dozers)',     iconClass: 'fa-solid fa-road-spikes',      isCategory: false },
-
-    // --- Procesamiento de Minerales ---
-    { id: 5,  name: 'Procesamiento de Minerales',      iconClass: 'fa-solid fa-gears',            isCategory: true, bgImage: bgProcesamiento },
-    { id: 6,  name: 'Trituración / Chancado',          iconClass: 'fa-solid fa-circle-nodes',     isCategory: false },
-    { id: 7,  name: 'Molienda',                        iconClass: 'fa-solid fa-rotate',           isCategory: false },
-    { id: 8,  name: 'Concentración',                   iconClass: 'fa-solid fa-flask',            isCategory: false },
-
-    // --- Equipos Auxiliares e Insumos ---
-    { id: 9,  name: 'Equipos Auxiliares e Insumos',    iconClass: 'fa-solid fa-toolbox',          isCategory: true, bgImage: bgEquipos },
-    { id: 10, name: 'Sistemas de Bombeo',              iconClass: 'fa-solid fa-water',            isCategory: false },
-    { id: 11, name: 'Repuestos y Consumibles',         iconClass: 'fa-solid fa-wrench',           isCategory: false },
-    { id: 12, name: 'Seguridad (EPP)',                 iconClass: 'fa-solid fa-hard-hat',         isCategory: false },
-]);
-
 const minerals = ref([
     { id: 1, name: 'Oro', image: mineralOro },
     { id: 2, name: 'Cassiterita', image: mineralCassiterita },
@@ -118,32 +96,32 @@ let slideInterval = null;
 const slides = ref([
     {
         id: 1,
-        title: 'Optimiza tu operación hoy',
-        subtitle: 'Encuentra maquinaria pesada y procesadoras para revolucionar tu mina.',
-        buttonText: 'Ver promociones',
+        title: 'Tu mina, a vista de águila',
+        subtitle: 'Operaciones mineras a cielo abierto con tecnología de punta. Encuentra maquinaria pesada y equipos de extracción en nuestro marketplace B2B.',
+        buttonText: 'Ver equipos',
         buttonLink: '/marketplace',
-        image: bgMaquinaria,
-        bgColor: '#4A2511', // Tono marrón del ejemplo
+        image: bgh1,
+        bgColor: '#2c4a1e',
         textColor: '#FFFFFF',
     },
     {
         id: 2,
-        title: 'Procesamiento eficiente',
-        subtitle: 'Equipos de molienda y trituración de alta confiabilidad.',
-        buttonText: 'Explorar ahora',
+        title: 'Explora el subsuelo con precisión',
+        subtitle: 'Herramientas y equipos especializados para prospección y exploración minera subterránea. Lleva tu operación al siguiente nivel.',
+        buttonText: 'Ver catálogo',
         buttonLink: '/marketplace',
-        image: bgProcesamiento,
-        bgColor: '#113a4a', // Azul oscuro industrial
+        image: bgh2,
+        bgColor: '#1a2c3a',
         textColor: '#FFFFFF',
     },
     {
         id: 3,
-        title: 'Insumos y Seguridad',
-        subtitle: 'Todo lo que necesitas para operar con seguridad y sin interrupciones.',
-        buttonText: 'Ver catálogo',
+        title: 'Minerales de alta pureza',
+        subtitle: 'Compra y vende minerales estratégicos como cobalto, litio, cobre y más en nuestra plataforma B2B especializada en minería.',
+        buttonText: 'Ver minerales',
         buttonLink: '/marketplace',
-        image: bgEquipos,
-        bgColor: '#2a4a11', // Verde oscuro industrial
+        image: bgh4,
+        bgColor: '#1a1a2e',
         textColor: '#FFFFFF',
     }
 ]);
@@ -234,8 +212,21 @@ onUnmounted(() => {
 
              <!-- New Hero Banner Section (Dynamic Slider) -->
             <section class="mining-hero-section">
+
                 <div class="mining-hero-container" :style="{ backgroundColor: currentSlideData.bgColor }">
                     <!-- Left Content -->
+                    <div class="mining-hero-section-left" v-show="false">
+                                <svg class="curve-svg curve-left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M20 20C20 9 11 0 0 0H20V20Z"/>
+                                </svg>
+                                <div class="sc-white-container">
+                                    
+                                </div>
+                                <svg class="curve-svg curve-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M20 20C20 9 11 0 0 0H20V20Z"/>
+                                </svg>
+                    </div>
+
                     <div class="hero-left-content">
                         <h2 class="hero-main-title" :style="{ color: currentSlideData.textColor }">{{ currentSlideData.title }}</h2>
                         <p class="hero-subtitle" :style="{ color: currentSlideData.textColor }">{{ currentSlideData.subtitle }}</p>
@@ -244,6 +235,7 @@ onUnmounted(() => {
 
                     <!-- Right Image Content -->
                     <div class="hero-right-image">
+                        <div class="overlay"></div>
                         <img :src="currentSlideData.image" alt="Banner Image">
                     </div>
 
@@ -394,37 +386,7 @@ onUnmounted(() => {
 
 
     
-                <section class="new-categories-section" v-show="false">
-                    <div class="nc-container">
-                        <h2 class="nc-main-title">Categorías disponibles en nuestro Marketplace B2B</h2>
-                        
-                        <div class="nc-grid">
-                            <div v-for="(cat, index) in miningCategories.filter(c => c.isCategory)" :key="cat.id" class="nc-card" :style="{ backgroundImage: `url(${cat.bgImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }">
-                                <div class="nc-overlay"></div>
-                                <div>
-                                    <svg class="curve-svg curve-left-cat" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                        <path d="M20 20C20 9 11 0 0 0H20V20Z"/>
-                                    </svg>
-                                    <div class="nc-white-container">
-                                        <div class="nc-circle-dark">
-                                            0{{ index + 1 }}
-                                        </div>
-                                    </div>
-                                    <svg class="curve-svg curve-right-cat" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                        <path d="M20 20C20 9 11 0 0 0H20V20Z"/>
-                                    </svg>
-                                </div>
-                                <div class="nc-content-area">
-                                    <i :class="cat.iconClass" class="nc-icon" :data-index="index"></i>
-                                    <span class="nc-name">{{ cat.name }}</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <button class="nc-cta" @click="redirect">Explorar El marketplace</button>
-                    </div>
-                </section>
-
+              
 
             <!-- Servicios Mineros -->
             <section class="services-section" id="services">
@@ -958,14 +920,20 @@ onUnmounted(() => {
     padding: 0 20px;
 }
 
+.mining-hero-section-left {
+    z-index: 4;
+}
+
 .mining-hero-container {
     border-radius: 12px;
-    min-height: 460px;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
     position: relative;
+    /*
     padding: 40px 60px;
+    */
     transition: background-color 0.5s ease;
 }
 
@@ -976,8 +944,15 @@ onUnmounted(() => {
     justify-content: center;
     align-items: flex-start;
     padding-right: 40px;
-    z-index: 2;
+    z-index: 4;
+    max-height: 500px;
     max-width: 50%;
+    position: absolute;
+    margin: 40px 60px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 .hero-main-title {
@@ -1017,7 +992,7 @@ onUnmounted(() => {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    max-width: 50%;
+    max-width: 100%;
     z-index: 2;
 }
 
@@ -1025,7 +1000,7 @@ onUnmounted(() => {
     max-width: 100%;
     object-fit: cover;
     border-radius: 16px;
-    height: 320px;
+    height: 500px;
     width: 100%;
 }
 
@@ -1379,6 +1354,36 @@ onUnmounted(() => {
     border-bottom-left-radius: 25px;
 }
 
+.sc-white-container-bottom {
+    height: 100px;
+    width: 200px;
+    background-color: white;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border-top-left-radius: 25px;
+}
+
+.curve-left-bottom {
+    height: 20px;
+    width: 20px;
+    position: absolute;
+    bottom: 100px;
+    right: 0;
+    color: white;
+    rotate: 90deg;
+}
+
+.curve-right-bottom {
+    height: 20px;
+    width: 20px;
+    position: absolute;
+    bottom: 0;
+    right: 200px;
+    color: white;
+    rotate: 90deg;
+}
+
 /* Cuerpo de la card */
 .sc-body {
     flex: 1;
@@ -1654,13 +1659,13 @@ onUnmounted(() => {
     box-shadow: 0 16px 32px rgba(0,0,0,0.08);
 }
 
-.nc-overlay {
+.nc-overlay, .overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.7));
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.212), rgba(0, 0, 0, 0.651));
     border-radius: 20px;
     z-index: 0;
     transition: opacity 0.3s ease;
