@@ -916,7 +916,7 @@ onUnmounted(() => {
 /* --- eBay Style Dynamic Hero Slider --- */
 .mining-hero-section {
     max-width: 1540px;
-    margin: 20px auto 40px;
+    margin: 40px auto 40px;
     padding: 0 20px;
 }
 
@@ -945,7 +945,7 @@ onUnmounted(() => {
     align-items: flex-start;
     padding-right: 40px;
     z-index: 4;
-    max-height: 500px;
+    max-height: 420px;
     max-width: 50%;
     position: absolute;
     margin: 40px 60px;
@@ -1000,7 +1000,7 @@ onUnmounted(() => {
     max-width: 100%;
     object-fit: cover;
     border-radius: 16px;
-    height: 500px;
+    height: 420px;
     width: 100%;
 }
 
