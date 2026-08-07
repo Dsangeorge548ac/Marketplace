@@ -61,7 +61,8 @@ export function getImageUrl(imagePath) {
 
     const finalBaseURL = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL;
 
-    return `${finalBaseURL}${cleanPath}`;
+    // Agregar ?v=2 para romper la caché de Cloudflare/Navegador que guardó el error 404
+    return `${finalBaseURL}${cleanPath}?v=2`;
 }
 
 export function handleImageError(event) {
