@@ -42,11 +42,11 @@ function requireDeveloperBrowserView(req, res, next) {
     next();
 }
 
+// Serve Uploads (Antes de los middlewares de validación)
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+
 app.use(validateSessionOptional);
 app.use(requireDeveloperBrowserView);
-
-// Serve Uploads
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Routes
 app.use('/notices', noticesRoutes);
