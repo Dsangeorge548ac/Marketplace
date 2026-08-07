@@ -1,0 +1,177 @@
+version: '3.8'
+
+services:
+  # ─── API Gateway ────────────────────────────────────────────────────────────
+  # Punto de entrada único para frontend y microservicios.
+  api_gateway:
+    container_name: fabrimine_api_gateway
+    build: ./api_gateway
+    ports:
+      # Se recomienda usar una variable en Dokploy para el puerto host (ej: 8090)
+      - "${FABRIMINE_API_PORT:-8090}:80"
+    networks:
+      - fabrimine_net
+    depends_on:
+      fabrimine_frontend:
+        condition: service_started
+      fabrimine_users:
+        condition: service_started
+      fabrimine_publications:
+        condition: service_started
+      fabrimine_orders:
+        condition: service_started
+      fabrimine_backup:
+        condition: service_started
+
+  # ─── Frontend (Vue.js) ──────────────────────────────────────────────────────
+  fabrimine_frontend:
+    container_name: fabrimine_frontend
+    build: ./vue_app
+    networks:
+      - fabrimine_net
+
+  # ─── Base de Datos Unificada (MySQL) ───────────────────────────────────────
+  fabrimine_db:
+    container_name: fabrimine_mysql_db
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      # Volumen renombrado para aislar los datos de Fabrimine
+      - fabrimine_db_data:/var/lib/mysql
+      # Script de inicialización opcional
+      - ./db_init/marketplace.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - fabrimine_net
+    # Asegura que la BD esté lista antes que los servicios dependientes
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u$$MYSQL_USER -p$$MYSQL_PASSWORD || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # ─── Microservicio de Usuarios ─────────────────────────────────────────────
+  fabrimine_users:
+    container_name: fabrimine_user_service
+    build: ./user_service
+    networks:
+      - fabrimine_net
+    depends_on:
+      fabrimine_db:
+        condition: service_healthy
+      fabrimine_redis:
+        condition: service_started
+    environment:
+      DB_HOST: fabrimine_db # Nombre del servicio DB de Fabrimine
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      REDIS_HOST: fabrimine_redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+    volumes:
+      # Volúmenes de desarrollo y persistencia renombrados
+      - ./user_service/src:/app/src
+      - ./user_service/package.json:/app/package.json
+      - fabrimine_user_uploads:/app/uploads
+
+  # ─── Microservicio de Publicaciones ───────────────────────────────────────
+  fabrimine_publications:
+    container_name: fabrimine_publications_service
+    build: ./publications_service
+    networks:
+      - fabrimine_net
+    depends_on:
+      fabrimine_db:
+        condition: service_healthy
+      fabrimine_redis:
+        condition: service_started
+    environment:
+      DB_HOST: fabrimine_db
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      REDIS_HOST: fabrimine_redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    volumes:
+      - ./publications_service/src:/app/src
+      - ./publications_service/package.json:/app/package.json
+
+  # ─── Microservicio de Pedidos ──────────────────────────────────────────────
+  fabrimine_orders:
+    container_name: fabrimine_orders_service
+    build: ./orders_service
+    networks:
+      - fabrimine_net
+    depends_on:
+      fabrimine_db:
+        condition: service_healthy
+    environment:
+      DB_HOST: fabrimine_db
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+
+  # ─── Microservicio de Respaldo ─────────────────────────────────────────────
+  # Se encarga de mysqldump de la base de datos unificada.
+  fabrimine_backup:
+    container_name: fabrimine_backup_service
+    build: ./backup_service
+    networks:
+      - fabrimine_net
+    depends_on:
+      fabrimine_db:
+        condition: service_healthy
+    environment:
+      DB_HOST: fabrimine_db
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      BACKUP_DIR: /app/uploads
+    volumes:
+      - ./backup_service/src:/app/src
+      - ./backup_service/package.json:/app/package.json
+      - fabrimine_backup_data:/app/uploads
+
+  # ─── Cache Service (Redis) ──────────────────────────────────────────────────
+  fabrimine_redis:
+    container_name: fabrimine_redis
+    image: redis:alpine
+    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD:-fabrimineRedis2026!}"]
+    restart: always
+    networks:
+      - fabrimine_net
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-fabrimineRedis2026!}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+# ─── Redes Aisladas ───────────────────────────────────────────────────────────
+networks:
+  # Red única para Fabrimine, Grommerc no puede ver esta red.
+  fabrimine_net:
+    driver: bridge
+
+# ─── Volúmenes Nombrados y Persistentes ──────────────────────────────────────
+volumes:
+  # Usa los volúmenes legacy de producción existentes
+  fabrimine_db_data:
+    name: fabrimineapp-fabriminestack-l6km1s_marketplace_data
+    external: true
+  fabrimine_user_uploads:
+    name: fabrimineapp-fabriminestack-l6km1s_user_uploads_data
+    external: true
+  fabrimine_publications_uploads:
+    name: fabrimineapp-fabriminestack-l6km1s_publications_uploads_data
+    external: true
+  fabrimine_backup_data:
+    name: fabrimineapp-fabriminestack-l6km1s_backup_data
+    external: true

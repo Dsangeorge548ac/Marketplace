@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 65 24" fill="none">
+    <text x="0" y="20" font-family="Arial, sans-serif" font-weight="900" font-size="24" fill="#74189B" letter-spacing="-1">Zelle</text>
+    <!-- Add vertical stripe mimicking traditional logo -->
+    <rect x="13.5" y="4" width="2.5" height="16" fill="#74189B" />
+</svg>

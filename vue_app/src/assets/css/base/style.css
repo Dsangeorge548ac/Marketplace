@@ -1,0 +1,680 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Epunda+Slab:ital,wght@0,300..900;1,300..900&family=Exo:ital,wght@0,100..900;1,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Mulish&family=Questrial&family=Quicksand:wght@300..700&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto+Slab:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+
+/* =========================================
+   1. VARIABLES & CONFIGURACIÓN
+   ========================================= */
+:root {
+    /* Global Typography */
+    --font-path-primary: "Market Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --font-body: "Market Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --font-logo: "Market Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    --primary-text: #0d2420;
+    --secondary-text: #6b7280;
+    --button-color: #fccd1e;
+    --button-hover: #e5b810;
+    --bg-color: white;
+    --machine-color: #122b26;
+    --icon-bg: #f8f9fa;
+    /* Tipografía Primary */
+    --font-primary: var(--font-body);
+}
+
+/* =========================================
+   2. RESET & ESTILOS BASE
+   ========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-primary);
+    background-color: var(--bg-color);
+    color: var(--primary-text);
+    line-height: 1.4;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin: 0 auto;
+    /* Asegura centrado si el body tiene max-width */
+}
+
+/* Clase de utilidad (Mantenida por compatibilidad) */
+.questrial-regular {
+    font-family: var(--font-primary);
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* =========================================
+   3. TIPOGRAFÍA
+   ========================================= */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-primary);
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--primary-text);
+}
+
+h1 {
+    font-size: 3.5rem;
+    font-weight: 600;
+}
+
+h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+h3 {
+    font-size: 1.7rem;
+    display: flex;
+}
+
+.section-title {
+    text-align: center;
+    color: var(--primary-text);
+}
+
+/* Overrides para Font Awesome - Corregido Brands */
+.fa-solid,
+.fa-regular,
+.fa-bars {
+    font-family: "Font Awesome 6 Free" !important;
+    font-weight: 900;
+}
+
+.fa-brands {
+    font-family: "Font Awesome 6 Brands" !important;
+    font-weight: 400;
+}
+
+/* =========================================
+   4. LAYOUT & UTILIDADES GENERALES
+   ========================================= */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.content-section {
+    padding: 5rem 0;
+    background: var(--bg-color);
+}
+
+.content-section:nth-child(even) {
+    background: var(--icon-bg);
+}
+
+/* Toast Notification */
+.custom-margin-toast {
+    border-radius: 20px;
+    margin-top: 65px;
+    position: absolute !important;
+    right: 10px !important;
+    font-family: var(--font-primary);
+}
+
+/* =========================================
+   5. BOTONES (GLOBALES)
+   ========================================= */
+.btn-center {
+    margin: auto;
+    display: flex;
+    width: 200px;
+    justify-content: center;
+    background-color: var(--button-color);
+    color: var(--primary-text);
+    padding: 12px 24px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+
+.btn-primary {
+    background-color: var(--button-color);
+    color: var(--primary-text);
+    padding: 12px 24px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+
+.btn-primary:hover,
+.btn-center:hover {
+    background-color: var(--button-hover);
+}
+
+/* Botones secundarios y de iconos */
+.btn-secondary {
+    background-color: transparent;
+    color: var(--primary-text);
+    border: 1px solid #D5D9D9;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: var(--font-primary);
+}
+
+.btn-color {
+    background: transparent !important;
+    color: var(--primary-text);
+    border: 2px solid var(--primary-text) !important;
+    justify-content: center !important;
+    font-family: var(--font-primary);
+    font-weight: 600;
+}
+
+.btn-secondary:hover,
+.btn-color:hover {
+    background-color: var(--button-color) !important;
+    border-color: var(--button-color) !important;
+}
+
+.btn-icon {
+    font-size: 1.2rem;
+}
+
+/* =========================================
+   7. BÚSQUEDA (HEADER & HERO)
+   ========================================= */
+.hero-search {
+    justify-content: center;
+    margin: 15px auto !important;
+    width: 50%;
+}
+
+.search-container {
+    display: flex;
+    position: relative;
+    width: 100%;
+    margin: auto;
+    gap: 10px;
+    justify-content: flex-end !important;
+}
+
+.search-bar {
+    margin: auto;
+    justify-content: center;
+    display: flex;
+    border-radius: 50px;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+    width: 100% !important;
+    max-width: 550px;
+    background-color: white;
+    border: solid 1px #e0e0e0;
+}
+
+#search-input {
+    flex: 1;
+    border: none;
+    padding: 14px 24px;
+    font-size: 14px;
+    color: var(--primary-text);
+    background-color: var(--icon-bg);
+    width: 100%;
+    font-family: var(--font-primary) !important;
+}
+
+#search-input:focus {
+    outline: none;
+    background-color: #fff;
+}
+
+#search-input::placeholder {
+    color: var(--secondary-text);
+}
+
+.search-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.search-btn {
+    position: absolute;
+    right: 3px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--button-color);
+    border: solid 2px var(--button-color);
+    padding: 10px 35px;
+    cursor: pointer;
+    color: var(--primary-text);
+    font-weight: bold;
+    transition: all 0.2s;
+    border-radius: 50px;
+    font-family: var(--font-primary);
+}
+
+.search-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    max-height: 300px;
+    overflow-y: auto;
+    display: none;
+    z-index: 1001;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.suggestion-item {
+    padding: 12px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid #f5f5f5;
+    color: var(--primary-text);
+    transition: background-color 0.2s;
+}
+
+.suggestion-item:hover {
+    background: var(--icon-bg);
+}
+
+/* =========================================
+   8. ACCIONES DE HEADER Y AUTH
+   ========================================= */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Carrito */
+.cart {
+    position: relative;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 8px;
+    transition: all 0.2s;
+    color: var(--primary-text);
+}
+
+.cart:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+.cart-count {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: #FF5722;
+    color: white;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Botones Auth */
+.auth-buttons {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.log-btn,
+.rg-btn,
+.bar-user {
+    padding: 0.51rem 0.8rem;
+    align-items: center;
+    border: none;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    font-family: var(--font-primary);
+}
+
+.bar-user {
+    background: transparent;
+    color: var(--primary-text);
+    border: 1px solid var(--primary-text);
+}
+
+.bar-user:hover {
+    background: var(--button-color);
+    border-color: var(--button-color);
+    transform: translateY(-2px);
+}
+
+.log-btn {
+    background-color: transparent;
+    color: var(--primary-text);
+    border: 1px solid var(--primary-text);
+}
+
+.log-btn:hover {
+    background-color: var(--primary-text);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.rg-btn {
+    background: var(--bg-color);
+    color: var(--primary-text);
+    border: 1px solid var(--bg-color);
+}
+
+.rg-btn:hover {
+    background: var(--primary-text);
+    color: var(--button-color);
+    border-color: var(--primary-text);
+    transform: translateY(-2px);
+}
+
+/* =========================================
+   9. BREADCRUMBS & CATEGORÍAS (ICONOS)
+   ========================================= */
+.breadcrumb {
+    padding: 12px 2rem;
+    font-size: 14px;
+    color: var(--primary-text);
+    text-align: center;
+    width: 100%;
+    margin: auto;
+    justify-content: center;
+}
+
+.breadcrumb a {
+    text-decoration: none;
+    color: var(--primary-text);
+    font-weight: 600;
+}
+
+.breadcrumb .container-place {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.separator {
+    color: var(--secondary-text);
+    margin: 0 5px;
+}
+
+.container-icons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    margin: auto;
+    margin-bottom: 20px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.container-icons>div {
+    flex: 0 0 auto;
+    width: 55px;
+    height: 55px;
+    background-color: var(--icon-bg);
+    border-radius: 15px;
+    text-align: center;
+    font-size: 2rem;
+    color: var(--primary-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+    border: solid 1px #e0e0e0;
+}
+
+.container-icons>div:hover {
+    transform: scale(1.1);
+    border-color: var(--button-color);
+}
+
+[class^="cont-ico"] {
+    height: 100%;
+    width: 100%;
+    border: solid 1px #e0e0e0;
+    border-radius: 15px;
+    text-align: center;
+    align-items: center;
+    padding: 15px;
+    background-color: var(--icon-bg);
+}
+
+/* =========================================
+   10. HERO SECTION
+   ========================================= */
+/*
+.hero {
+    text-align: center;
+    padding: 80px 20px 100px 20px;
+    max-width: 100%;
+    margin: 20px;
+    border-radius: 25px;
+    background-image: url(../img/img4.png);
+    background-size: 100%;
+    object-fit: cover;
+}
+*/
+.hero-search-sect {
+    text-align: center;
+    padding: 80px 20px 100px 20px;
+    max-width: 100%;
+    margin: 20px;
+    border-radius: 50px;
+    /* Dentro de tu archivo CSS o <style scoped> */
+
+    background-image: url(@/assets/img/mina.jpeg);
+    background-size: cover;
+    background-position: center;
+
+    /* Fondo oscuro encima de la imagen */
+    background-color: rgba(0, 0, 0, 0.6);
+    /* negro semitransparente */
+    background-blend-mode: darken;
+    /* mezcla el color con la imagen */
+}
+
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+}
+
+.hero-bg-image {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+
+
+.hero-text {
+    flex: 1;
+    color: var(--primary-text);
+    z-index: 10;
+    margin: 120px auto;
+}
+
+.hero-text h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+    text-align: center;
+    color: var(--primary-text);
+}
+
+.hero-text p {
+    font-size: 1.3rem;
+    margin-bottom: 2.5rem;
+    line-height: 1.7;
+    opacity: 0.95;
+    font-weight: 400;
+    text-align: center;
+    color: var(--secondary-text);
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1.5rem;
+    max-width: 400px;
+    margin: auto;
+    justify-content: center;
+}
+
+/* Hero Stats */
+.hero-stats {
+    display: flex;
+    gap: 2rem;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.stat-item {
+    text-align: center;
+    color: var(--primary-text);
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    font-family: var(--font-primary);
+    margin-bottom: 0.5rem;
+    color: var(--machine-color);
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    font-weight: 400;
+    color: var(--secondary-text);
+}
+
+/* =========================================
+   11. PAGINACIÓN
+   ========================================= */
+#pagination-container {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+#pagination-container button {
+    padding: 0.6rem 1rem;
+    background-color: var(--icon-bg);
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-family: var(--font-primary);
+    color: var(--primary-text);
+}
+
+#pagination-container button.active-page {
+    background-color: var(--button-color);
+    color: var(--primary-text);
+    font-weight: 600;
+}
+
+/* =========================================
+   12. RESPONSIVE (MOBILE)
+   ========================================= */
+@media (max-width: 900px) {
+    .mobile-menu-icon {
+        display: block !important;
+    }
+
+    header {
+        position: relative;
+        top: 0 !important;
+        border-radius: 0px;
+    }
+
+    /* Menú oculto por defecto */
+    .nav-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: white;
+        flex-direction: column;
+        padding: 20px 0;
+        margin-left: 0;
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        display: none;
+    }
+
+    /* Clase para mostrar el menú */
+    .nav-menu.active {
+        display: flex;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        width: 100%;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .nav-icons {
+        flex-direction: column;
+        width: 100%;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .idioma {
+        display: none;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .commodities-grid {
+        gap: 10px;
+    }
+
+    .icon-card {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+}

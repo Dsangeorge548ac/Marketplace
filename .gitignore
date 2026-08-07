@@ -1,0 +1,9 @@
+# Dependencias
+node_modules/
+
+# Builds
+dist/
+
+# Entornos
+.env
+vue_app/.env

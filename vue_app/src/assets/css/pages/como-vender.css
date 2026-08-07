@@ -1,0 +1,660 @@
+/* =============================================
+   ¿CÓMO VENDER? PAGE STYLES
+   ============================================= */
+
+.como-vender-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+}
+
+.como-vender-main {
+    flex: 1;
+}
+
+/* ── Shared Section Styles ────────────────────── */
+.cv-section-container {
+    max-width: 1540px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.cv-section-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.cv-section-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #111827;
+    letter-spacing: -1.2px;
+    margin-bottom: 12px;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.cv-section-subtitle {
+    font-size: 1.05rem;
+    color: #6b7280;
+    max-width: 560px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* ── Hero Section ─────────────────────────────── */
+.cv-hero-section {
+
+    padding: 40px 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.cv-hero-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(245, 158, 11, 0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.cv-hero-container {
+    max-width: 1500px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    padding: 60px;
+    background-color: #111827;
+    border-radius: 20px;
+    justify-content: space-between;
+}
+
+.cv-hero-content {
+    flex: 1;
+    max-width: 620px;
+}
+
+.cv-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(245, 158, 11, 0.12);
+    color: #f59e0b;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.cv-hero-badge i {
+    font-size: 16px;
+}
+
+.cv-hero-title {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+    letter-spacing: -2px;
+    margin-bottom: 20px;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.cv-hero-subtitle {
+    font-size: 1.1rem;
+    color: #94a3b8;
+    line-height: 1.7;
+    margin-bottom: 32px;
+    max-width: 500px;
+}
+
+.cv-hero-actions {
+    display: none;
+    gap: 14px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+/* Buttons */
+.cv-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #111827;
+    border: none;
+    border-radius: 12px;
+    padding: 14px 28px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: "Inter", sans-serif;
+    box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);
+}
+
+.cv-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(245, 158, 11, 0.4);
+}
+
+.cv-btn-primary i {
+    font-size: 18px;
+}
+
+.cv-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.06);
+    color: #e2e8f0;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    padding: 14px 28px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: "Inter", sans-serif;
+    backdrop-filter: blur(4px);
+}
+
+.cv-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.cv-btn-secondary i {
+    font-size: 18px;
+    color: #25D366;
+}
+
+.cv-btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: #374151;
+    border: 2px solid #d1d5db;
+    border-radius: 12px;
+    padding: 14px 28px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: "Inter", sans-serif;
+}
+
+.cv-btn-outline:hover {
+    border-color: #9ca3af;
+    background: #f9fafb;
+    transform: translateY(-2px);
+}
+
+.cv-btn-outline i {
+    font-size: 18px;
+    color: #25D366;
+}
+
+.cv-btn-lg {
+    padding: 16px 32px;
+    font-size: 16px;
+}
+
+/* Hero Stats */
+.cv-hero-stats {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.cv-stat {
+    display: flex;
+    flex-direction: column;
+}
+
+.cv-stat-number {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+}
+
+.cv-stat-label {
+    font-size: 12px;
+    color: #64748b;
+    font-weight: 500;
+    margin-top: 2px;
+}
+
+.cv-stat-divider {
+    width: 1px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Hero Visual (Abstract graphic) */
+.cv-hero-visual {
+    flex: 0 0 360px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cv-hero-graphic {
+    position: relative;
+    width: 320px;
+    height: 320px;
+}
+
+.cv-graphic-circle {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(245, 158, 11, 0.12);
+}
+
+.cv-circle-1 {
+    width: 320px;
+    height: 320px;
+    top: 0;
+    left: 0;
+    animation: cv-pulse 4s ease-in-out infinite;
+}
+
+.cv-circle-2 {
+    width: 220px;
+    height: 220px;
+    top: 50px;
+    left: 50px;
+    border-color: rgba(245, 158, 11, 0.2);
+    animation: cv-pulse 4s ease-in-out 1s infinite;
+}
+
+.cv-circle-3 {
+    width: 120px;
+    height: 120px;
+    top: 100px;
+    left: 100px;
+    border-color: rgba(245, 158, 11, 0.3);
+    background: rgba(245, 158, 11, 0.04);
+    animation: cv-pulse 4s ease-in-out 2s infinite;
+}
+
+.cv-graphic-icon-wrap {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 72px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(245, 158, 11, 0.35);
+}
+
+.cv-graphic-icon-wrap i {
+    font-size: 36px;
+    color: #111827;
+}
+
+@keyframes cv-pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.04);
+        opacity: 0.7;
+    }
+}
+
+/* ── Steps Section ────────────────────────────── */
+.cv-steps-section {
+    padding: 90px 20px;
+    background: #f9fafb;
+    margin-top: 20px;
+}
+
+.cv-steps-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+}
+
+.cv-step-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 32px 28px;
+    position: relative;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid #f3f4f6;
+}
+
+.cv-step-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.06);
+    border-color: #e5e7eb;
+}
+
+.cv-step-number {
+    position: absolute;
+    top: -14px;
+    right: 20px;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 800;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.cv-step-icon-wrap {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.cv-step-icon-wrap i {
+    font-size: 26px;
+}
+
+.cv-step-title {
+    font-size: 1.1rem;
+    font-weight: 750;
+    color: #111827;
+    margin-bottom: 10px;
+    letter-spacing: -0.3px;
+}
+
+.cv-step-description {
+    font-size: 0.88rem;
+    color: #6b7280;
+    line-height: 1.65;
+}
+
+/* ── Benefits Section ─────────────────────────── */
+.cv-benefits-section {
+    padding: 90px 20px;
+    background: #ffffff;
+}
+
+.cv-benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+}
+
+.cv-benefit-card {
+    padding: 28px;
+    border-radius: 18px;
+    border: 1px solid #f3f4f6;
+    transition: all 0.3s ease;
+    background: #ffffff;
+}
+
+.cv-benefit-card:hover {
+    border-color: #e5e7eb;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+    transform: translateY(-2px);
+}
+
+.cv-benefit-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: #f9fafb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+}
+
+.cv-benefit-icon i {
+    font-size: 24px;
+    color: #111827;
+}
+
+.cv-benefit-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 8px;
+    letter-spacing: -0.2px;
+}
+
+.cv-benefit-description {
+    font-size: 0.88rem;
+    color: #6b7280;
+    line-height: 1.6;
+}
+
+/* ── FAQ Section ──────────────────────────────── */
+.cv-faq-section {
+    padding: 90px 20px;
+    background: #f9fafb;
+}
+
+.cv-faq-list {
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.cv-faq-item {
+    background: #ffffff;
+    border-radius: 14px;
+    border: 1px solid #f3f4f6;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.cv-faq-item[open] {
+    border-color: #e5e7eb;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.cv-faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 650;
+    color: #111827;
+    list-style: none;
+    user-select: none;
+    transition: color 0.2s;
+}
+
+.cv-faq-question::-webkit-details-marker {
+    display: none;
+}
+
+.cv-faq-question:hover {
+    color: #f59e0b;
+}
+
+.cv-faq-toggle-icon {
+    font-size: 20px;
+    color: #9ca3af;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}
+
+.cv-faq-item[open] .cv-faq-toggle-icon {
+    transform: rotate(45deg);
+    color: #f59e0b;
+}
+
+.cv-faq-answer {
+    padding: 0 24px 20px;
+    font-size: 0.88rem;
+    color: #6b7280;
+    line-height: 1.7;
+}
+
+/* ── CTA Section ──────────────────────────────── */
+.cv-cta-section {
+    padding: 90px 20px;
+    background: #ffffff;
+}
+
+.cv-cta-container {
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cv-cta-title {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: #111827;
+    letter-spacing: -1.5px;
+    margin-bottom: 14px;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.cv-cta-subtitle {
+    font-size: 1.05rem;
+    color: #6b7280;
+    line-height: 1.6;
+    margin-bottom: 32px;
+}
+
+.cv-cta-actions {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+/* ── Responsive ───────────────────────────────── */
+@media (max-width: 1024px) {
+    .cv-hero-visual {
+        display: none;
+    }
+
+    .cv-hero-content {
+        max-width: 100%;
+    }
+
+    .cv-hero-title {
+        font-size: 2.4rem;
+    }
+
+    .cv-steps-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .cv-hero-section {
+        padding: 50px 20px;
+    }
+
+    .cv-hero-title {
+        font-size: 2rem;
+        letter-spacing: -1.2px;
+    }
+
+    .cv-hero-subtitle {
+        font-size: 1rem;
+    }
+
+    .cv-hero-stats {
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    .cv-stat-divider {
+        display: none;
+    }
+
+    .cv-section-title {
+        font-size: 1.8rem;
+    }
+
+    .cv-steps-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .cv-benefits-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .cv-steps-section,
+    .cv-benefits-section,
+    .cv-faq-section,
+    .cv-cta-section {
+        padding: 60px 16px;
+    }
+
+    .cv-cta-title {
+        font-size: 1.8rem;
+    }
+
+    .cv-cta-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .cv-btn-primary,
+    .cv-btn-secondary,
+    .cv-btn-outline {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .cv-hero-title {
+        font-size: 1.7rem;
+        letter-spacing: -1px;
+    }
+
+    .cv-hero-actions {
+        flex-direction: column;
+    }
+
+    .cv-btn-primary,
+    .cv-btn-secondary {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .cv-faq-question {
+        padding: 16px 18px;
+        font-size: 0.88rem;
+    }
+
+    .cv-faq-answer {
+        padding: 0 18px 16px;
+    }
+}

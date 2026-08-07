@@ -1,0 +1,247 @@
+.sidebar-filters {
+    width: 250px;
+    flex-shrink: 0;
+    /* Transparent background, no borders on main container */
+    background-color: transparent;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Individual Filter Card Style */
+.filter-card {
+
+    padding: 22px 0 0 0;
+    transition: box-shadow 0.2s ease;
+}
+
+.filter-group-block {
+    margin-bottom: 24px;
+}
+
+.filter-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 20px 0;
+}
+
+.filter-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Radio / Checkbox Shared Styles */
+.radio-label,
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #4b5563;
+    padding: 8px 0;
+    border-radius: 8px;
+    /* Softer radius for rows */
+    transition: all 0.2s ease;
+}
+
+.radio-label:hover:not(.active-item),
+.checkbox-label:hover:not(.active-item) {
+    color: #3665f3;
+    /* Softer hover background */
+}
+
+/* Active row background */
+.active-item {
+
+    /* Soft blue tint */
+    color: #3665f3;
+}
+
+.radio-label input,
+.checkbox-label input {
+    display: none;
+}
+
+/* Radio button specific */
+.radio-label .custom-radio {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #d1d5db;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    background-color: transparent;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.radio-label input:checked+.custom-radio {
+    border-color: #3665f3;
+}
+
+.radio-label input:checked+.custom-radio::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background-color: #3665f3;
+    border-radius: 50%;
+}
+
+/* Checkbox specific */
+.checkbox-label .custom-radio {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    /* Make them round like categories */
+    border: 2px solid #d1d5db;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    background-color: transparent;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.checkbox-label input:checked+.custom-radio {
+    border-color: #3665f3;
+}
+
+/* Checkmark using ::after (Now styled exactly like the radio buttons' inner dot) */
+.checkbox-label input:checked+.custom-radio::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background-color: #3665f3;
+    border-radius: 50%;
+}
+
+/* Label text active state */
+.active-item .label-text,
+.radio-label input:checked~.label-text,
+.checkbox-label input:checked~.label-text {
+    color: #3665f3;
+    font-weight: 600;
+}
+
+.count {
+    color: #9ca3af;
+    font-size: 14px;
+}
+
+/* Collapsible sections */
+.collapsible-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.collapsible-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 4px 0 16px 0;
+    /* Add bottom padding so it breathes above the list */
+    font-size: 15px;
+    font-weight: 700;
+    color: #111820;
+    transition: color 0.15s ease;
+}
+
+.header-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.title-icon {
+    font-size: 20px;
+    color: #3665f3;
+    /* Pop of brand color */
+}
+
+.collapsible-header:hover {
+    color: #3665f3;
+    /* eBay blue */
+}
+
+.math-icon {
+    font-size: 20px;
+    color: #707070;
+    /* secondary color */
+    transition: color 0.15s ease, transform 0.2s ease;
+}
+
+.collapsible-header:hover .math-icon {
+    color: #3665f3;
+}
+
+.collapsible-content {
+    padding-bottom: 16px;
+}
+
+.placeholder-text {
+    font-size: 13px;
+    color: #707070;
+    margin: 0;
+}
+
+.empty-state-message {
+    padding: 8px 4px;
+}
+
+/* Checkboxes Specific List */
+.scrollable-list {
+    max-height: 250px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    /* tighter spacing for cleaner look */
+}
+
+.scrollable-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.scrollable-list::-webkit-scrollbar-thumb {
+    background-color: #d1d5db;
+    border-radius: 4px;
+}
+
+/* Bottom clear button */
+.btn-clear-filters {
+    width: 100%;
+    padding: 12px 0;
+    margin-top: 25px;
+    background-color: #e5e7eb;
+    border: none;
+    border-radius: 40px;
+    /* pill shape matching search */
+    color: #111820;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.btn-clear-filters:hover {
+    background-color: #e5e7eb;
+    color: #3665f3;
+}
+
+@media (max-width: 768px) {
+    .sidebar-filters {
+        width: 100%;
+        margin-bottom: 24px;
+        padding: 30px 0;
+    }
+}

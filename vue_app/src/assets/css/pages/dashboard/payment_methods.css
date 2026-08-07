@@ -1,0 +1,138 @@
+/* Respetando estilo del Componente Publicaciones */
+.products-section-payment {
+    margin: 0 22px 22px;
+}
+
+.btn-create {
+    background: #fccd1e;
+    color: #000;
+    border: none;
+    padding: 14px 30px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: background 0.2s;
+}
+.btn-create:hover { background: #e0b40b; }
+
+.products-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.results-info {
+    font-size: 14px;
+    color: #111;
+    font-weight: 500;
+}
+
+.no-results h3 {
+    font-size: 18px;
+    color: #111;
+    font-weight: 500;
+}
+
+/* Cards (Modified earlier for UI) */
+.payment-methods-grid {
+    display: grid;
+    grid-template-columns: repeat(1fr, 100%);
+    gap: 20px;
+}
+
+.payment-card {
+    background: #fff;
+    border: 1px solid #eaeaea;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.payment-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+
+.platform-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.platform-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    color: #fff;
+}
+.platform-logo {
+    object-fit: contain;
+}
+
+.platform-icon { background: whitesmoke; }
+.platform-logo-zinli { width: 30px; height: 30px; }
+.platform-logo-zelle { width: 30px; height: 30px; }
+.platform-logo-binance { width: 24px; height: 24px; }
+
+
+
+
+.platform-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #111820;
+}
+
+.method-details p {
+    font-size: 14px;
+    color: #444;
+    margin: 4px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.method-details p i { color: #888; }
+
+.card-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: auto;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 14px;
+}
+
+.btn-action {
+    flex: 1;
+    border: 1px solid #ddd;
+    background: transparent;
+    padding: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #555;
+    font-size: 18px;
+    transition: all 0.2s;
+}
+.btn-action.edit:hover { background: #f0f4ff; border-color: #3665f3; color: #3665f3; }
+.btn-action.delete:hover { background: #fff1f1; border-color: #ff4d4f; color: #ff4d4f; }
+
+.loading-state { text-align: center; padding: 60px; color: #777; }
+.spinner {
+    width: 40px; height: 40px; border: 4px solid #f3f3f3;
+    border-top: 4px solid #3665f3; border-radius: 50%;
+    animation: spin 1s linear infinite; margin: 0 auto 15px;
+}
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+

@@ -1,0 +1,239 @@
+@import '@/assets/css/components/modal.css';
+
+.products-grid.notices-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)) !important;
+    gap: 30px 26px;
+    margin-bottom: 20px;
+}
+
+.notice-card {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    transition: transform 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    width: 100%;
+}
+
+.notice-card:hover {
+    transform: translateY(-2px);
+}
+
+.notice-image-container {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    position: relative;
+    background-color: #d3d3d3;
+    overflow: hidden;
+    border-radius: 14px;
+}
+
+.notice-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform .3s ease;
+}
+
+
+.notice-card:hover .notice-img {
+    transform: scale(1.05);
+}
+
+.notice-content {
+    padding: 14px 2px 0;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 92px;
+}
+
+.notice-title {
+    font-size: 1rem;
+    font-weight: 800;
+    color: #111827;
+    margin: 0;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    word-break: break-word;
+}
+
+.dashboard-card-actions-notices {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 12px 0 !important;
+}
+
+.action-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.delete-btn {
+    background-color: #fee2e2;
+    color: #ef4444;
+}
+
+.delete-btn:hover {
+    background-color: #fecaca;
+    transform: scale(1.1);
+}
+
+.edit-btn {
+    background-color: #e0f2fe;
+    color: #0ea5e9;
+}
+
+.edit-btn:hover {
+    background-color: #bae6fd;
+    transform: scale(1.1);
+}
+
+/* Pagination Styles based on Design */
+.pagination-wrapper-dashboard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: auto;
+    padding: 10px 0;
+}
+
+
+.pagination-numbers {
+    display: flex;
+    align-items: center;
+    background-color: gainsboro;
+    /* Dark pill background */
+    border-radius: 24px;
+    padding: 6px 12px;
+    gap: 4px;
+}
+
+.pagination-num-btn {
+    background: none;
+    border: none;
+    color: #9ca3af;
+    min-width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    /* Make them perfect circles */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    padding: 0;
+}
+
+.pagination-num-btn:hover {
+    color: #fff;
+}
+
+.pagination-num-btn.active {
+    background-color: #ffffff;
+    color: #111827;
+}
+
+.pagination-ellipsis {
+    color: #9ca3af;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none !important;
+    min-width: 24px;
+    cursor: default;
+}
+
+.pagination-controls {
+    display: flex;
+    gap: 12px;
+}
+
+.pagination-prev,
+.pagination-next {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 35px 14px 35px;
+    border-radius: 24px;
+    border: none;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.pagination-prev {
+    background-color: gainsboro;
+    /* Dark gray */
+    color: black;
+}
+
+.pagination-prev:hover {
+    background-color: #4b5563;
+}
+
+.pagination-next {
+    background-color: gold;
+    /* Orange */
+    color: black;
+}
+
+.pagination-next:hover {
+    background-color: black;
+    color: white;
+}
+
+.pagination-prev:disabled,
+.pagination-next:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .products-grid.notices-grid {
+        grid-template-columns: 1fr;
+        justify-items: center;
+    }
+
+    .notice-card {
+        max-width: 300px;
+    }
+
+    .notice-title {
+        font-size: 1.6rem;
+    }
+}
+
+.no-results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 40px 20px;
+    /* Ensure some height to center within */
+    margin: auto;
+    color: #666;
+    /* Fallback or match user intent */
+}

@@ -1,0 +1,190 @@
+/*
+ * card.css — estilos compartidos para cards del marketplace
+ * Los estilos de HomeProductCard están en su propio <style scoped>
+ */
+
+/* ── Placeholder sin imagen ─────────────────────────── */
+.no-image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: gainsboro;
+    color: #9ca3af;
+    font-size: 3rem;
+}
+
+/* ── Botón add (on hover) — usado en otros contextos ── */
+.add-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #f3f4f6;
+    color: #4b5563;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    opacity: 0;
+}
+
+.add-btn:hover {
+    background: #e5e7eb;
+    color: #111827;
+}
+
+.add-btn i {
+    font-size: 1rem;
+}
+
+/* ── Card wrapper ──────────────────────────────────────── */
+.pc-card {
+    background: #ffffff;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid #d4d4d4;
+    transition: box-shadow 0.2s, transform 0.2s;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.pc-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* ── Área de imagen ────────────────────────────────────── */
+.pc-img-area {
+    position: relative;
+    width: 100%;
+    height: 190px;
+    background-color: gainsboro;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.pc-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.pc-no-img {
+    font-size: 3rem;
+    color: #9ca3af;
+}
+
+/* Badge de categoría */
+.pc-category-badge {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    background: #fff8e1;
+    /* Fondo amarillo muy claro */
+    color: #b45309;
+    /* Texto amarillo ocre oscuro/marrón */
+    font-size: 11px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 20px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.pc-category-dot {
+    width: 6px;
+    height: 6px;
+    background-color: #f59e0b;
+    /* Punto amarillo/naranja */
+    border-radius: 50%;
+}
+
+/* ── Cuerpo de la card ─────────────────────────────────── */
+.pc-body {
+    padding: 16px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+/* Título */
+.pc-title {
+    font-size: 14px;
+    font-weight: 800;
+    color: #1c223c;
+    line-height: 1.3;
+    margin: 0 0 10px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Ubicación */
+.pc-location {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #8c939d;
+    font-size: 10px;
+    font-weight: 500;
+    margin-bottom: 16px;
+}
+
+.pc-location i {
+    font-size: 15px;
+}
+
+/* Divisor */
+.pc-divider {
+    height: 1px;
+    background-color: #f4f5f7;
+    margin-bottom: 16px;
+    width: 100%;
+}
+
+/* Precios */
+.pc-prices-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pc-price-col {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.pc-price-col.right-align {
+    text-align: right;
+    align-items: flex-end;
+}
+
+.pc-price-label {
+    font-size: 11px;
+    color: #8c939d;
+    font-weight: 600;
+}
+
+.pc-price-main {
+    font-size: 14px;
+    font-weight: 800;
+    color: #172b4d;
+}
+
+.pc-price-avg {
+    font-size: 14px;
+    font-weight: 800;
+    color: #10b981;
+}
