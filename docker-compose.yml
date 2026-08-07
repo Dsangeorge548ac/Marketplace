@@ -103,7 +103,6 @@ services:
     volumes:
       - ./publications_service/src:/app/src
       - ./publications_service/package.json:/app/package.json
-      - fabrimine_publications_uploads:/app/uploads
 
   # ─── Microservicio de Pedidos ──────────────────────────────────────────────
   fabrimine_orders:
