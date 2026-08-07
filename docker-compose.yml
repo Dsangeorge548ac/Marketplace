@@ -168,10 +168,10 @@ volumes:
     name: fabrimineapp-fabriminestack-l6km1s_marketplace_data
     external: true
   fabrimine_user_uploads:
-    name: fabrimineapp-fabriminestack-l6km1s_user_uploads_data
+    name: fabrimineapp-fabriminestack-l6km1s_fabrimine_user_uploads
     external: true
   fabrimine_publications_uploads:
-    name: fabrimineapp-fabriminestack-l6km1s_publications_uploads_data
+    name: fabrimineapp-fabriminestack-l6km1s_fabrimine_publications_uploads
     external: true
   fabrimine_backup_data:
     name: fabrimineapp-fabriminestack-l6km1s_backup_data
