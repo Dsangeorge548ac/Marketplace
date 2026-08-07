@@ -49,7 +49,7 @@ services:
       - fabrimine_net
     # Asegura que la BD esté lista antes que los servicios dependientes
     healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u$$MYSQL_USER -p$$MYSQL_PASSWORD || exit 1"]
+      test: [ "CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u$$MYSQL_USER -p$$MYSQL_PASSWORD || exit 1" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -144,12 +144,12 @@ services:
   fabrimine_redis:
     container_name: fabrimine_redis
     image: redis:alpine
-    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD:-fabrimineRedis2026!}"]
+    command: [ "redis-server", "--requirepass", "${REDIS_PASSWORD:-fabrimineRedis2026!}" ]
     restart: always
     networks:
       - fabrimine_net
     healthcheck:
-      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-fabrimineRedis2026!}", "ping"]
+      test: [ "CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-fabrimineRedis2026!}", "ping" ]
       interval: 10s
       timeout: 5s
       retries: 5
