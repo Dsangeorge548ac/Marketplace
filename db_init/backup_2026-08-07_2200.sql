@@ -1,7 +1,7 @@
 /*M!999999\- enable the sandbox mode */ 
--- MariaDB dump 10.19  Distrib 10.11.14-MariaDB, for debian-linux-gnu (x86_64)
+-- MariaDB dump 10.19  Distrib 10.11.18-MariaDB, for debian-linux-gnu (x86_64)
 --
--- Host: marketplace_db    Database: marketplace
+-- Host: fabrimine_db    Database: marketplace
 -- ------------------------------------------------------
 -- Server version	8.0.45
 
@@ -33,7 +33,7 @@ CREATE TABLE `account_verification_documents` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_verification_document_type` (`verification_id`,`document_type`),
   CONSTRAINT `fk_verification_documents_process` FOREIGN KEY (`verification_id`) REFERENCES `account_verification_process` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,9 +43,12 @@ CREATE TABLE `account_verification_documents` (
 LOCK TABLES `account_verification_documents` WRITE;
 /*!40000 ALTER TABLE `account_verification_documents` DISABLE KEYS */;
 INSERT INTO `account_verification_documents` VALUES
-(1,1,'cbm_alliance_document','uploads/verifications/1778245430251-820249397.webp','2026-05-08 13:03:50','2026-05-08 13:03:50'),
-(2,1,'tax_id_document','uploads/verifications/1778245430255-167540772.webp','2026-05-08 13:03:50','2026-05-08 13:03:50'),
-(3,1,'face_photo','uploads/verifications/1778245430259-664012471.webp','2026-05-08 13:03:50','2026-05-08 13:03:50');
+(1,1,'cbm_alliance_document','uploads/verifications/1778607282550-326969073.webp','2026-05-12 17:34:42','2026-05-12 17:34:42'),
+(2,1,'tax_id_document','uploads/verifications/1778607282562-361439694.webp','2026-05-12 17:34:42','2026-05-12 17:34:42'),
+(3,1,'face_photo','uploads/verifications/1778607282565-776595687.webp','2026-05-12 17:34:42','2026-05-12 17:34:42'),
+(7,8,'cbm_alliance_document','uploads/verifications/1785075500791-490449679.webp','2026-07-26 14:18:20','2026-07-26 14:18:20'),
+(8,8,'tax_id_document','uploads/verifications/1785075500796-803038444.webp','2026-07-26 14:18:20','2026-07-26 14:18:20'),
+(9,8,'face_photo','uploads/verifications/1785075500813-145337532.webp','2026-07-26 14:18:20','2026-07-26 14:18:20');
 /*!40000 ALTER TABLE `account_verification_documents` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -72,7 +75,7 @@ CREATE TABLE `account_verification_process` (
   KEY `fk_verification_reviewer` (`reviewed_by`),
   CONSTRAINT `fk_verification_account` FOREIGN KEY (`account_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_verification_reviewer` FOREIGN KEY (`reviewed_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -82,7 +85,9 @@ CREATE TABLE `account_verification_process` (
 LOCK TABLES `account_verification_process` WRITE;
 /*!40000 ALTER TABLE `account_verification_process` DISABLE KEYS */;
 INSERT INTO `account_verification_process` VALUES
-(1,67,'Verificado','Verificado correctamente',NULL,'2026-05-08 13:03:56',67,'2026-05-08 13:00:14','2026-05-08 13:03:56');
+(1,67,'Verificado','Verificado correctamente',NULL,'2026-05-12 17:34:46',67,'2026-05-12 17:34:03','2026-05-12 17:34:46'),
+(8,104,'Verificado','Verificado correctamente',NULL,'2026-07-26 14:20:37',67,'2026-07-26 14:15:01','2026-07-26 14:20:37'),
+(9,103,'Verificado','Verificado correctamente',NULL,'2026-08-04 18:42:19',67,'2026-08-04 18:42:19','2026-08-04 18:42:19');
 /*!40000 ALTER TABLE `account_verification_process` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -105,7 +110,7 @@ CREATE TABLE `account_verification_tax_information` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_tax_information_verification` (`verification_id`),
   CONSTRAINT `fk_tax_information_verification` FOREIGN KEY (`verification_id`) REFERENCES `account_verification_process` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -115,7 +120,8 @@ CREATE TABLE `account_verification_tax_information` (
 LOCK TABLES `account_verification_tax_information` WRITE;
 /*!40000 ALTER TABLE `account_verification_tax_information` DISABLE KEYS */;
 INSERT INTO `account_verification_tax_information` VALUES
-(1,1,'Fabrimine, C.A.','Lorem Ipsum is simply dummy text of the printing and typesetting industry.','J-305XXXXXXX','0424XXXXXXX','2026-05-08 13:03:28','2026-05-08 13:03:28');
+(1,1,'Fabrimine, C.A.','Sin direccion','J-305XXXXXX','0424XXXXXXX','2026-05-12 17:34:34','2026-05-12 17:34:34'),
+(2,8,'Horizonte Profundo, C.A.','Lorem ipsum, asimit','J-XXXXXXXXX','04143691244','2026-07-26 14:19:23','2026-07-26 14:19:23');
 /*!40000 ALTER TABLE `account_verification_tax_information` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -132,7 +138,7 @@ CREATE TABLE `backups` (
   `nombre` varchar(40) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
   `fecha` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idr`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -141,6 +147,14 @@ CREATE TABLE `backups` (
 
 LOCK TABLES `backups` WRITE;
 /*!40000 ALTER TABLE `backups` DISABLE KEYS */;
+INSERT INTO `backups` VALUES
+(5,'/api/backup_service/backups/download/backup_2026-05-12_2329.sql','backup_2026-05-12_2329.sql','2026-05-12 23:29:04'),
+(6,'/api/backup_service/backups/download/backup_2026-05-12_2329.sql','backup_2026-05-12_2329.sql','2026-05-12 23:29:11'),
+(7,'/api/backup_service/backups/download/backup_2026-05-15_1453.sql','backup_2026-05-15_1453.sql','2026-05-15 14:53:15'),
+(8,'/api/backup_service/backups/download/backup_2026-05-15_1453.sql','backup_2026-05-15_1453.sql','2026-05-15 14:53:18'),
+(9,'/api/backup_service/backups/download/backup_2026-05-21_1614.sql','backup_2026-05-21_1614.sql','2026-05-21 16:14:23'),
+(10,'/api/backup_service/backups/download/backup_2026-06-03_1508.sql','backup_2026-06-03_1508.sql','2026-06-03 15:08:56'),
+(11,'/api/backup_service/backups/download/backup_2026-08-04_1815.sql','backup_2026-08-04_1815.sql','2026-08-04 18:15:10');
 /*!40000 ALTER TABLE `backups` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -160,7 +174,7 @@ CREATE TABLE `locations` (
   PRIMARY KEY (`id`),
   KEY `fk_location_product` (`id_product`),
   CONSTRAINT `fk_location_product` FOREIGN KEY (`id_product`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -170,11 +184,24 @@ CREATE TABLE `locations` (
 LOCK TABLES `locations` WRITE;
 /*!40000 ALTER TABLE `locations` DISABLE KEYS */;
 INSERT INTO `locations` VALUES
-(51,501,'Venezuela','Bolívar','Ciudad Guayanna'),
+(51,501,'Venezuela','Anzoátegui','Soledad'),
 (52,502,'Venezuela','Bolívar','Ciudad Guayanna'),
 (53,503,'Venezuela','Bolívar','Ciudad Guayanna'),
 (54,504,'Venezuela','Bolívar','Ciudad Guayanna'),
-(55,505,'Venezuela','Bolívar','Ciudad Guayanna');
+(55,505,'Venezuela','Bolívar','Ciudad Guayanna'),
+(56,506,'Venezuela','Bolívar','Ciudad Guayanna'),
+(57,507,'Venezuela','Bolívar','Ciudad Guayanna'),
+(58,508,'Venezuela','Bolívar','Ciudad Guayanna'),
+(59,509,'Venezuela','Bolívar','Ciudad Bolivar'),
+(60,510,'Venezuela','Bolívar','Ciudad Guayanna'),
+(61,511,'Venezuela','Bolívar','Ciudad Guayanna'),
+(62,512,'Venezuela','Bolívar','Ciudad Guayanna'),
+(63,513,'Venezuela','Bolívar','Ciudad Guayanna'),
+(64,514,'Venezuela','Bolívar','Ciudad Guayanna'),
+(65,515,'Venezuela','Bolívar','Ciudad Guayanna'),
+(66,516,'Venezuela','Anzoátegui','Soledad'),
+(67,517,'Venezuela','Anzoátegui','Soledad'),
+(68,518,'Venezuela','Anzoátegui','Soledad');
 /*!40000 ALTER TABLE `locations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -193,7 +220,7 @@ CREATE TABLE `manufacturers` (
   PRIMARY KEY (`id`),
   KEY `fk_manufacturer_product` (`id_product`),
   CONSTRAINT `fk_manufacturer_product` FOREIGN KEY (`id_product`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -204,10 +231,23 @@ LOCK TABLES `manufacturers` WRITE;
 /*!40000 ALTER TABLE `manufacturers` DISABLE KEYS */;
 INSERT INTO `manufacturers` VALUES
 (11,501,'Fabrimine, C.A.','acunafernando592@gmail.com'),
-(12,502,'Fabrimine, C.A.','acunafernando592@gmail.com'),
-(13,503,'Fabrimine, C.A.','acunafernando592@gmail.com'),
-(14,504,'Fabrimine, C.A.','0424XXXXXXX'),
-(15,505,'Fabrimine, C.A.','acunafernando592@gmail.com');
+(12,502,'Fabrimine C.A.','fabrimine.ca@gmail.com'),
+(13,503,'Fabrimine C.A.','fabrimine.ca@gmail.com'),
+(14,504,'Fabrimine C.A.','fabrimine.ca@gmail.com'),
+(15,505,'Fabrimine C.A.','fabrimine.ca@gmail.com'),
+(16,506,'Fabrimine C.A.','fabrimine.ca@gmail.com'),
+(17,507,'Fabrimine C.A.','fabrimine.ca@gmail.com'),
+(18,508,'Fabrimine C.A.','fabrimine.ca@gmail.com'),
+(19,509,'Fabrimine C.A.','fabrimine.ca@gmail.com'),
+(20,510,'Fabrimine C.A.','fabrimine.ca@gmail.com'),
+(21,511,'Fabrimine C.A.','fabrimine.ca@gmail.com'),
+(22,512,'Fabrimine C.A.','fabrimine.ca@gmail.com'),
+(23,513,'Fabrimine C.A.','fabrimine.ca@gmail.com'),
+(24,514,'Fabrimine C.A.','fabrimine.ca@gmail.com'),
+(25,515,'Fabrimine C.A.','fabrimine.ca@gmail.com'),
+(26,516,'Fabrimine, C.A.','acunafernando592@gmail.com'),
+(27,517,'Horizonte Profundo, C.A.','04143691244'),
+(28,518,'Fabrimine, C.A.','acunafernando592@gmail.com');
 /*!40000 ALTER TABLE `manufacturers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -226,7 +266,7 @@ CREATE TABLE `media` (
   PRIMARY KEY (`id`),
   KEY `fk_media_product` (`id_product`),
   CONSTRAINT `fk_media_product_constraint` FOREIGN KEY (`id_product`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -236,11 +276,27 @@ CREATE TABLE `media` (
 LOCK TABLES `media` WRITE;
 /*!40000 ALTER TABLE `media` DISABLE KEYS */;
 INSERT INTO `media` VALUES
-(12,501,'image_1','/publications_service/uploads/1778246533054-950382751.webp'),
-(13,502,'image_1','/publications_service/uploads/1778246809341-155368832.webp'),
-(14,503,'image_1','/publications_service/uploads/1778246940139-425072160.webp'),
-(15,504,'image_1','/publications_service/uploads/1778247039947-691398976.webp'),
-(16,505,'image_1','/publications_service/uploads/1778247696576-115477652.webp');
+(12,501,'image_1','/publications_service/uploads/1778607323321-722255385.webp'),
+(13,502,'image_1','/publications_service/uploads/1780061688515-798343202.webp'),
+(14,503,'image_1','/publications_service/uploads/1780062046912-163026144.webp'),
+(15,504,'image_1','/publications_service/uploads/1780062139532-159663534.webp'),
+(16,505,'image_1','/publications_service/uploads/1780062336258-962259408.webp'),
+(17,506,'image_1','/publications_service/uploads/1780062737973-115459891.webp'),
+(18,507,'image_1','/publications_service/uploads/1780062837453-471784064.webp'),
+(19,508,'image_1','/publications_service/uploads/1780063019798-309933086.webp'),
+(20,509,'image_1','/publications_service/uploads/1780063329706-350230745.webp'),
+(21,510,'image_1','/publications_service/uploads/1780063923676-273407736.webp'),
+(22,511,'image_1','/publications_service/uploads/1780066379788-754457660.webp'),
+(23,512,'image_1','/publications_service/uploads/1780066522776-881256997.webp'),
+(24,512,'image_2','/publications_service/uploads/1780066522779-900686833.webp'),
+(25,512,'image_3','/publications_service/uploads/1780066522781-871301394.webp'),
+(26,508,'new_image_1780066665117_0','/publications_service/uploads/1780066665104-774376392.webp'),
+(27,513,'image_1','/publications_service/uploads/1780067243602-936455722.webp'),
+(28,514,'image_1','/publications_service/uploads/1780067455833-922361466.webp'),
+(29,515,'image_1','/publications_service/uploads/1780067566420-43648843.webp'),
+(30,516,'image_1','/publications_service/uploads/1781550294926-579861814.webp'),
+(31,517,'image_1','/publications_service/uploads/1785075665492-812925467.webp'),
+(32,518,'image_1','/publications_service/uploads/1786139849555-116478281.webp');
 /*!40000 ALTER TABLE `media` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -324,7 +380,7 @@ CREATE TABLE `order_items` (
   KEY `idx_order_items_seller_order` (`seller_id`,`order_id`),
   CONSTRAINT `fk_item_order` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_item_product` FOREIGN KEY (`machine_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -333,6 +389,11 @@ CREATE TABLE `order_items` (
 
 LOCK TABLES `order_items` WRITE;
 /*!40000 ALTER TABLE `order_items` DISABLE KEYS */;
+INSERT INTO `order_items` VALUES
+(2,2,503,103,100),
+(3,3,515,103,1),
+(4,3,513,103,1),
+(5,4,517,104,1);
 /*!40000 ALTER TABLE `order_items` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -357,7 +418,7 @@ CREATE TABLE `orders` (
   KEY `idx_orders_created_at` (`created_at`),
   CONSTRAINT `fk_order_seller` FOREIGN KEY (`seller_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_order_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -366,6 +427,10 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
+INSERT INTO `orders` VALUES
+(2,'AE-KZDJ4X',67,103,'pendiente','2026-06-19 15:12:08'),
+(3,'UY-DXSAAH',104,103,'pendiente','2026-07-26 14:21:26'),
+(4,'YJ-2MMBPS',104,104,'pendiente','2026-07-26 14:21:26');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -386,7 +451,7 @@ CREATE TABLE `payment_methods` (
   PRIMARY KEY (`id`),
   KEY `fk_payment_method_user` (`user_id`),
   CONSTRAINT `fk_payment_method_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -395,6 +460,8 @@ CREATE TABLE `payment_methods` (
 
 LOCK TABLES `payment_methods` WRITE;
 /*!40000 ALTER TABLE `payment_methods` DISABLE KEYS */;
+INSERT INTO `payment_methods` VALUES
+(1,67,'Binance','Fernando Acuña','acunafernando592@gmail.com','2026-06-15 23:02:06');
 /*!40000 ALTER TABLE `payment_methods` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -419,7 +486,7 @@ CREATE TABLE `product_details` (
   KEY `fk_product` (`id_product`),
   KEY `idx_product_details_category` (`category`),
   CONSTRAINT `fk_details_product` FOREIGN KEY (`id_product`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -429,11 +496,24 @@ CREATE TABLE `product_details` (
 LOCK TABLES `product_details` WRITE;
 /*!40000 ALTER TABLE `product_details` DISABLE KEYS */;
 INSERT INTO `product_details` VALUES
-(12,501,'Procesamiento de Minerales','Molienda','molino','H-40','Molino impactor H-40 nuevo ',NULL,'/publications_service/uploads/1778246533054-950382751.webp'),
-(13,502,'Procesamiento de Minerales','Molienda','molino','H-40','Molino impactor H-40 nuevo',NULL,'/publications_service/uploads/1778246809341-155368832.webp'),
-(14,503,'Procesamiento de Minerales','Clasificación','molino','HI 45','Molino de bolas HI 45 nuevo',NULL,'/publications_service/uploads/1778246940139-425072160.webp'),
-(15,504,'Maquinaria Pesada','Camiones Rígidos y Articulados','Camion','SRT 2007','Camion caterpillar usado en buen estado',NULL,'/publications_service/uploads/1778247039947-691398976.webp'),
-(16,505,'Procesamiento de Minerales','Planta de lavado','Tromer','HR 455','Tromer nuevo de paquete',NULL,'/publications_service/uploads/1778247696576-115477652.webp');
+(12,501,'Procesamiento de Minerales','Molienda','Molino','H-40','Molino impactor H-40',NULL,'/publications_service/uploads/1778607323321-722255385.webp'),
+(13,502,'Procesamiento de Minerales','Molienda','Molino de impacto','H-40','Molino de impacto H-40',NULL,'/publications_service/uploads/1780061688515-798343202.webp'),
+(14,503,'De hizaje / elevacion vertical','Sistemas de Izaje Personal','Winche de 4 toneladas','Sin definir ','Winche de 4 toneladas',NULL,'/publications_service/uploads/1780062046912-163026144.webp'),
+(15,504,'Procesamiento de Minerales','Molienda','Molino','H-25','Molino H-25',NULL,'/publications_service/uploads/1780062139532-159663534.webp'),
+(16,505,'Procesamiento de Minerales','Clasificación','Tromer giratorio','Tromer de 25 toneladas','Tromer de 25 toneladas',NULL,'/publications_service/uploads/1780062336258-962259408.webp'),
+(17,506,'Procesamiento de Minerales','Clasificación','Trituradora de mandibula','TR-1','Trituradora de mandíbula con tolva',NULL,'/publications_service/uploads/1780062737973-115459891.webp'),
+(18,507,'Procesamiento de Minerales','Molienda','Molino de coco','MB-1','Molino de coco',NULL,'/publications_service/uploads/1780062837453-471784064.webp'),
+(19,508,'Procesamiento de Minerales','Molienda','Molino de impacto','H-66','Molino H-66',NULL,'/publications_service/uploads/1780063019798-309933086.webp'),
+(20,509,'Equipos Auxiliares e Insumos','Repuestos y Consumibles','Cuerpo moledor','No especificado','Bolas para molino de coco',NULL,'/publications_service/uploads/1780063329706-350230745.webp'),
+(21,510,'Equipos Auxiliares e Insumos','Repuestos y Consumibles','Martillos de impacto','Sin especificar','Martillos para molinos de impacto',NULL,'/publications_service/uploads/1780063923676-273407736.webp'),
+(22,511,'Procesamiento de Minerales','Molienda','Molino de impacto','H-40','Molino de impacto H-40 con motor Diesel',NULL,'/publications_service/uploads/1780066379788-754457660.webp'),
+(23,512,'Procesamiento de Minerales','Clasificación','Trituradora de mandibula','Sin especificar','trituradora de mandíbula pequeña',NULL,'/publications_service/uploads/1780066522776-881256997.webp'),
+(24,513,'Equipos Auxiliares e Insumos','Repuestos y Consumibles','Martillod (costillas)','Sin modelo','Martillos de molino de impacto ',NULL,'/publications_service/uploads/1780067243602-936455722.webp'),
+(25,514,'Procesamiento de Minerales','Manejo de Materiales','Pie de bomba','Impeler 4 pulgadas','Pie de bomba de 4 pulgadas',NULL,'/publications_service/uploads/1780067455833-922361466.webp'),
+(26,515,'Procesamiento de Minerales','Manejo de Materiales','Pie de bomba','Impeler 6 pulgadas','Pie de bomba de 6 pulgadas',NULL,'/publications_service/uploads/1780067566420-43648843.webp'),
+(27,516,'Procesamiento de Minerales','Molienda','Molino','H-40','Molino de ipacto H-40',NULL,'/publications_service/uploads/1781550294926-579861814.webp'),
+(28,517,'Procesamiento de Minerales','Molienda','Molino','H-40','adadad',NULL,'/publications_service/uploads/1785075665492-812925467.webp'),
+(29,518,'Procesamiento de Minerales','Molienda','Molino','H-40','sfsf',NULL,'/publications_service/uploads/1786139849555-116478281.webp');
 /*!40000 ALTER TABLE `product_details` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -455,7 +535,7 @@ CREATE TABLE `products` (
   KEY `idx_products_name` (`name`),
   KEY `fk_product_seller` (`id_user`),
   CONSTRAINT `fk_product_seller` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=506 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=519 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -465,11 +545,24 @@ CREATE TABLE `products` (
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
 INSERT INTO `products` VALUES
-(501,67,'Molino impactor H-40',8,NULL,0),
-(502,67,'Molino impactor H-40',8,NULL,0),
-(503,67,'Molino de bolas',12,NULL,0),
-(504,67,'Camion caterpillar',1,NULL,0),
-(505,67,'Tromer de 10 toneladas',1,NULL,0);
+(501,67,'Molino impactor H-40',1,NULL,1),
+(502,103,'Molino de impacto H-40',0,NULL,0),
+(503,103,'Winche de 4 toneladas',0,NULL,0),
+(504,103,'Molino H-25',0,NULL,0),
+(505,103,'Tromer de 25 toneladas',1,NULL,0),
+(506,103,'Trituradora de mandibula con tolva',0,NULL,0),
+(507,103,'Molino de coco',0,NULL,0),
+(508,103,'Molino H-66',0,NULL,0),
+(509,103,'Bolas para molino de coco',0,NULL,0),
+(510,103,'Martillos para molinos de impacto',0,NULL,0),
+(511,103,'Molino H-40 con motor Diesel',0,NULL,0),
+(512,103,'Trituradora de mandibula para laboratorio',1,NULL,0),
+(513,103,'Martillos de impacto (costillas)',0,NULL,0),
+(514,103,'Pie de bomba (Burro) de 4 pulgadas',0,NULL,0),
+(515,103,'Pie de bomba (Burro) de 6 pulgadas',0,NULL,0),
+(516,67,'Molino impactor H-40',1,NULL,1),
+(517,104,'Molino impactor H-40',0,NULL,1),
+(518,67,'Molino impactor H-40',0,NULL,1);
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -493,7 +586,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   KEY `idx_users_email` (`email`),
   KEY `idx_users_name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=105 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -503,7 +596,9 @@ CREATE TABLE `users` (
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` VALUES
-(67,'Fernando D\' Sangeorge','acunafernando592@gmail.com','$2y$10$EYNJL4VVCHpJ6eubsnJCKOhya0oJFSrT.9wf657eiot45ZJ8PC7ie','','sin comentarios\r\n','Developer','¿Cual es el nombre de tu primer mascota?','Kiara');
+(67,'Fernando D\' Sangeorge','acunafernando592@gmail.com','$2a$04$yYglLGOMeHxISA3kCIjSO.2eB5J0CD5krEIC9ZYn3Qejf2DAo71iG','','sin comentarios\r\n','Developer','¿Cual es el nombre de tu primer mascota?','Kiara'),
+(103,'Fabrimine C.A.','fabrimine.ca@gmail.com','$2a$04$2wt40SU4MB7.ShIyo9hHK.JTzoElYX38UkGhYmy0SeBt8XxEOmt3i',NULL,'Sin mensajes','Asociado','¿Cuál fue el nombre de tu primera escuela?','marta vechio'),
+(104,'Fernando Acuña','fernandodesangeorge@gmail.com','$2a$04$1G0AXJB.gRd1.NiJVS6puebe4nZOnkEHEiZTWrf0LFivuHCcj87VW',NULL,'Sin mensajes','Usuario','Google Auth','102430075618976959730');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -520,4 +615,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-05-08 14:01:05
+-- Dump completed on 2026-08-07 22:00:43

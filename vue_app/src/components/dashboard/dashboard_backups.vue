@@ -7,9 +7,10 @@
 // con acciones de descarga y eliminación.
 // =============================================================
 
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import { useDashboardBackups } from '@/assets/js/dashboard_backups.js'
 import dashboard_banner from '@/components/dashboard/dashboard_banner.vue'
+import Swal from 'sweetalert2'
 
 // Importa el CSS específico del módulo
 import '@/assets/css/pages/dashboard/main.css'
@@ -20,6 +21,8 @@ const {
     backups,
     isLoading,
     isCreating,
+    isUploading,
+    uploadProgress,
     search,
     filteredBackups,
     paginatedBackups,
@@ -29,6 +32,7 @@ const {
     goToPage,
     loadBackups,
     createBackup,
+    uploadBackup,
     downloadBackup,
     restoreBackup,
     deleteBackup,
@@ -51,6 +55,73 @@ const lastBackupDate = computed(() => {
     if (!backups.value.length) return null
     return backups.value[0]?.modificado || null // la lista ya viene ordenada desc
 })
+
+// ── Estado y lógica para el modal de subida de archivo SQL ───
+const showUploadModal = ref(false)
+const selectedFile = ref(null)
+const restoreImmediately = ref(false)
+const isDragging = ref(false)
+const fileInputRef = ref(null)
+
+function openUploadModal() {
+    selectedFile.value = null
+    restoreImmediately.value = false
+    isDragging.value = false
+    showUploadModal.value = true
+}
+
+function closeUploadModal() {
+    if (isUploading.value) return
+    showUploadModal.value = false
+    selectedFile.value = null
+    restoreImmediately.value = false
+    isDragging.value = false
+}
+
+function triggerFileInput() {
+    if (isUploading.value) return
+    fileInputRef.value?.click()
+}
+
+function handleFileSelect(e) {
+    const file = e.target.files?.[0]
+    if (file) {
+        processSelectedFile(file)
+    }
+}
+
+function handleFileDrop(e) {
+    if (isUploading.value) return
+    isDragging.value = false
+    const file = e.dataTransfer.files?.[0]
+    if (file) {
+        processSelectedFile(file)
+    }
+}
+
+function processSelectedFile(file) {
+    if (!file.name.toLowerCase().endsWith('.sql')) {
+        Swal.fire('Formato incorrecto', 'Solo puedes subir archivos con formato .sql', 'error')
+        return
+    }
+    selectedFile.value = file
+}
+
+function removeSelectedFile() {
+    if (isUploading.value) return
+    selectedFile.value = null
+    if (fileInputRef.value) {
+        fileInputRef.value.value = ''
+    }
+}
+
+async function handleUploadSubmit() {
+    if (!selectedFile.value || isUploading.value) return
+    const success = await uploadBackup(selectedFile.value, restoreImmediately.value)
+    if (success) {
+        closeUploadModal()
+    }
+}
 </script>
 
 <template>
@@ -59,7 +130,7 @@ const lastBackupDate = computed(() => {
 
             <div class="table-container">
 
-                <!-- ═══ HERO: título + botón crear respaldo ════════════ -->
+                <!-- ═══ HERO: título + botones de acción ═══════════════ -->
                 <div class="backup-hero">
                     <div class="backup-hero-info">
                         <div class="backup-hero-icon">
@@ -67,22 +138,36 @@ const lastBackupDate = computed(() => {
                         </div>
                         <div class="backup-hero-text">
                             <h3>Respaldos de Base de Datos</h3>
-                            <p>Genera, descarga y administra copias de seguridad del sistema</p>
+                            <p>Genera, descarga, sube y administra copias de seguridad del sistema</p>
                         </div>
                     </div>
 
-                    <!-- Botón principal: crea un nuevo respaldo -->
-                    <button
-                        class="btn-create-backup"
-                        id="btn-create-backup"
-                        :disabled="isCreating"
-                        @click="createBackup"
-                    >
-                        <!-- Spinner mientras se genera el respaldo -->
-                        <span v-if="isCreating" class="spinner"></span>
-                        <i v-else class='bx bx-plus-circle'></i>
-                        {{ isCreating ? 'Generando…' : 'Nuevo Respaldo' }}
-                    </button>
+                    <!-- Botones principales: Subir SQL y Crear Respaldo -->
+                    <div class="backup-hero-actions">
+                        <button
+                            class="btn-upload-sql"
+                            id="btn-open-upload-sql"
+                            type="button"
+                            :disabled="isCreating || isUploading"
+                            @click="openUploadModal"
+                        >
+                            <i class='bx bx-cloud-upload'></i>
+                            Subir Archivo SQL
+                        </button>
+
+                        <button
+                            class="btn-create-backup"
+                            id="btn-create-backup"
+                            type="button"
+                            :disabled="isCreating || isUploading"
+                            @click="createBackup"
+                        >
+                            <!-- Spinner mientras se genera el respaldo -->
+                            <span v-if="isCreating" class="spinner"></span>
+                            <i v-else class='bx bx-plus-circle'></i>
+                            {{ isCreating ? 'Generando…' : 'Nuevo Respaldo' }}
+                        </button>
+                    </div>
                 </div>
 
                 <!-- ═══ ESTADÍSTICAS RÁPIDAS ════════════════════════════ -->
@@ -278,5 +363,129 @@ const lastBackupDate = computed(() => {
             </div>
             <!-- /contenedor -->
         </div>
+
+        <!-- ═══ MODAL PARA SUBIR ARCHIVO SQL ════════════════════════ -->
+        <div v-if="showUploadModal" class="modal-overlay active" @click.self="closeUploadModal">
+            <div class="modal-container-2 backup-upload-modal">
+                
+                <div class="modal-header-2">
+                    <div class="modal-title-with-icon">
+                        <i class='bx bx-cloud-upload upload-modal-header-icon'></i>
+                        <h2>Subir Archivo SQL</h2>
+                    </div>
+                    <button
+                        type="button"
+                        class="close-button-2"
+                        :disabled="isUploading"
+                        @click="closeUploadModal"
+                    >
+                        &times;
+                    </button>
+                </div>
+
+                <div class="modal-content-2">
+                    <!-- Zona Drag & Drop / Selección de Archivo -->
+                    <div
+                        class="sql-dropzone"
+                        :class="{ 'is-dragging': isDragging, 'has-file': !!selectedFile }"
+                        @click="triggerFileInput"
+                        @dragover.prevent="isDragging = true"
+                        @dragleave.prevent="isDragging = false"
+                        @drop.prevent="handleFileDrop"
+                    >
+                        <input
+                            type="file"
+                            ref="fileInputRef"
+                            accept=".sql"
+                            class="sql-file-input"
+                            @change="handleFileSelect"
+                        />
+
+                        <div v-if="!selectedFile" class="dropzone-empty">
+                            <div class="dropzone-icon">
+                                <i class='bx bx-upload'></i>
+                            </div>
+                            <h4>Selecciona o arrastra tu archivo .sql</h4>
+                            <p>Haz clic para buscar en tus archivos</p>
+                            <span class="dropzone-hint">Admite volcados SQL de MySQL hasta 200 MB</span>
+                        </div>
+
+                        <div v-else class="dropzone-file-selected" @click.stop>
+                            <div class="file-info-badge">
+                                <i class='bx bxs-file-json file-icon-sql'></i>
+                                <div class="file-details">
+                                    <span class="file-name">{{ selectedFile.name }}</span>
+                                    <span class="file-size">{{ formatSize(Math.round(selectedFile.size / 1024)) }}</span>
+                                </div>
+                            </div>
+                            <button
+                                type="button"
+                                class="btn-remove-file"
+                                :disabled="isUploading"
+                                @click="removeSelectedFile"
+                                title="Quitar archivo"
+                            >
+                                <i class='bx bx-x'></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Opción de restaurar inmediatamente tras subir -->
+                    <div class="restore-option-card">
+                        <label class="restore-checkbox-label">
+                            <input
+                                type="checkbox"
+                                v-model="restoreImmediately"
+                                :disabled="isUploading"
+                                class="restore-checkbox"
+                            />
+                            <div class="restore-label-text">
+                                <strong>¿Restaurar la base de datos de inmediato?</strong>
+                                <p>Si activas esta opción, se reemplazará la base de datos actual con este archivo al finalizar la subida.</p>
+                            </div>
+                        </label>
+                    </div>
+
+                    <!-- Mensaje informativo -->
+                    <div class="upload-modal-alert">
+                        <i class='bx bx-info-circle'></i>
+                        <span>El archivo se guardará en los respaldos y podrás descargarlo o restaurarlo en cualquier momento.</span>
+                    </div>
+
+                    <!-- Barra de progreso si está subiendo -->
+                    <div v-if="isUploading && uploadProgress > 0" class="upload-progress-wrapper">
+                        <div class="upload-progress-bar">
+                            <div class="upload-progress-fill" :style="{ width: uploadProgress + '%' }"></div>
+                        </div>
+                        <span class="upload-progress-text">{{ uploadProgress }}% subido</span>
+                    </div>
+
+                    <!-- Botones de acción del Modal -->
+                    <div class="form-actions" style="margin-top: 24px;">
+                        <button
+                            type="button"
+                            class="cancel-button"
+                            :disabled="isUploading"
+                            @click="closeUploadModal"
+                        >
+                            Cancelar
+                        </button>
+                        <button
+                            type="button"
+                            class="submit-button btn-confirm-upload"
+                            :disabled="!selectedFile || isUploading"
+                            @click="handleUploadSubmit"
+                        >
+                            <span v-if="isUploading" class="spinner"></span>
+                            <i v-else class='bx bx-cloud-upload'></i>
+                            {{ isUploading ? (restoreImmediately ? 'Subiendo y aplicando…' : 'Subiendo…') : (restoreImmediately ? 'Subir y Restaurar' : 'Subir Respaldo') }}
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
     </div>
 </template>
+

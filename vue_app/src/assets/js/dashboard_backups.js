@@ -268,6 +268,102 @@ export function useDashboardBackups() {
         }
     }
 
+    // ── Estado de subida de archivos ───────────────────────────
+    const isUploading = ref(false)
+    const uploadProgress = ref(0)
+
+    // ══════════════════════════════════════════════════════════
+    // SUBIR RESPALDO SQL
+    // Envía un archivo .sql al servidor para guardarlo o
+    // restaurarlo directamente en la base de datos
+    // ══════════════════════════════════════════════════════════
+    async function uploadBackup(file, restoreImmediately = false) {
+        if (!file) {
+            Swal.fire('Error', 'Por favor selecciona un archivo .sql', 'warning')
+            return false
+        }
+
+        if (!file.name.toLowerCase().endsWith('.sql')) {
+            Swal.fire('Formato no válido', 'Solo se permite subir archivos de base de datos con extensión .sql', 'error')
+            return false
+        }
+
+        if (restoreImmediately) {
+            const confirm = await Swal.fire({
+                title: '¿Subir y restaurar base de datos?',
+                html: `Se subirá <strong>${file.name}</strong> y <strong>reemplazará los datos actuales</strong> de la base de datos.<br><br>¿Estás seguro de continuar?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#fccd1e',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Sí, subir y restaurar',
+                cancelButtonText: 'Cancelar'
+            })
+
+            if (!confirm.isConfirmed) return false
+        }
+
+        isUploading.value = true
+        uploadProgress.value = 0
+
+        Swal.fire({
+            title: restoreImmediately ? 'Subiendo y restaurando…' : 'Subiendo archivo SQL…',
+            html: restoreImmediately
+                ? 'El archivo se está subiendo y aplicando en la base de datos.<br>Por favor no cierres la ventana.'
+                : 'Subiendo archivo al servidor de respaldos…',
+            allowOutsideClick: false,
+            didOpen: () => Swal.showLoading()
+        })
+
+        try {
+            const formData = new FormData()
+            formData.append('file', file)
+            if (restoreImmediately) {
+                formData.append('restore', 'true')
+            }
+
+            const { data } = await axios.post(`${BASE_URL}/backups/upload`, formData, {
+                headers: { 'Content-Type': 'multipart/form-data' },
+                withCredentials: true,
+                timeout: 300000,
+                onUploadProgress: (progressEvent) => {
+                    if (progressEvent.total) {
+                        uploadProgress.value = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+                    }
+                }
+            })
+
+            if (restoreImmediately) {
+                await Swal.fire({
+                    title: '¡Base de datos restaurada!',
+                    html: `El respaldo <strong>${data.archivo}</strong> fue subido y aplicado exitosamente.`,
+                    icon: 'success',
+                    confirmButtonColor: '#fccd1e'
+                })
+                window.location.reload()
+            } else {
+                Swal.fire({
+                    title: '¡Respaldo subido!',
+                    html: `Archivo: <strong>${data.archivo}</strong><br>Tamaño: ${data.tamano_kb} KB`,
+                    icon: 'success',
+                    confirmButtonColor: '#fccd1e'
+                })
+                await loadBackups()
+            }
+
+            return true
+
+        } catch (err) {
+            console.error('[Backups] Error al subir archivo:', err)
+            const msg = err.response?.data?.detalle || err.response?.data?.error || 'No se pudo subir el archivo SQL'
+            Swal.fire('Error', msg, 'error')
+            return false
+        } finally {
+            isUploading.value = false
+            uploadProgress.value = 0
+        }
+    }
+
     // ── Helpers de formato ─────────────────────────────────────
 
     /**
@@ -301,6 +397,8 @@ export function useDashboardBackups() {
         backups,
         isLoading,
         isCreating,
+        isUploading,
+        uploadProgress,
         search,
         filteredBackups,
         paginatedBackups,
@@ -310,6 +408,7 @@ export function useDashboardBackups() {
         goToPage,
         loadBackups,
         createBackup,
+        uploadBackup,
         downloadBackup,
         deleteBackup,
         restoreBackup,
@@ -317,3 +416,4 @@ export function useDashboardBackups() {
         formatSize
     }
 }
+

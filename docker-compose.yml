@@ -162,14 +162,11 @@ networks:
 # ─── Volúmenes Nombrados y Persistentes ──────────────────────────────────────
 volumes:
   fabrimine_db_data:
-    name: fabrimineapp-fabriminestack-l6km1s_fabrimine_db_data
-    external: true
+    name: ${FABRIMINE_DB_VOLUME:-marketplace_fabrimine_db_data}
   fabrimine_user_uploads:
-    name: fabrimineapp-fabriminestack-l6km1s_fabrimine_user_uploads
-    external: true
+    name: ${FABRIMINE_USER_VOLUME:-marketplace_fabrimine_user_uploads}
   fabrimine_publications_uploads:
-    name: fabrimineapp-fabriminestack-l6km1s_fabrimine_publications_uploads
-    external: true
+    name: ${FABRIMINE_PUB_VOLUME:-marketplace_fabrimine_publications_uploads}
   fabrimine_backup_data:
-    name: fabrimineapp-fabriminestack-l6km1s_fabrimine_backup_data
-    external: true
+    name: ${FABRIMINE_BACKUP_VOLUME:-marketplace_fabrimine_backup_data}
+

@@ -83,6 +83,50 @@
     transform: none;
 }
 
+/* ── Contenedor de acciones del Hero ───────────────────────── */
+.backup-hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* ── Botón de subir archivo SQL ────────────────────────────── */
+.btn-upload-sql {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 22px;
+    background: #0f172a;
+    color: #f8fafc;
+    border: 1px solid #1e293b;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+}
+
+.btn-upload-sql i {
+    font-size: 1.25rem;
+    color: #fccd1e;
+}
+
+.btn-upload-sql:hover:not(:disabled) {
+    background: #1e293b;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.25);
+}
+
+.btn-upload-sql:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
 .btn-create-backup .spinner {
     width: 16px;
     height: 16px;
@@ -384,12 +428,306 @@
     }
 }
 
+/* ── Modal de Subida de Archivo SQL ────────────────────────── */
+.backup-upload-modal {
+    max-width: 540px !important;
+    width: 95%;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.modal-title-with-icon {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.upload-modal-header-icon {
+    font-size: 1.5rem;
+    color: #eab308;
+    background: rgba(252, 205, 30, 0.15);
+    padding: 8px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-title-with-icon h2 {
+    font-size: 1.25rem;
+    margin: 0;
+    color: #0f172a;
+    font-weight: 700;
+}
+
+/* ── Zona Dropzone de Archivo SQL ──────────────────────────── */
+.sql-dropzone {
+    border: 2px dashed #cbd5e1;
+    border-radius: 14px;
+    padding: 30px 20px;
+    text-align: center;
+    background: #f8fafc;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+    user-select: none;
+}
+
+.sql-dropzone:hover {
+    border-color: #eab308;
+    background: #fefce8;
+}
+
+.sql-dropzone.is-dragging {
+    border-color: #ca8a04;
+    background: #fef9c3;
+    transform: scale(1.01);
+}
+
+.sql-dropzone.has-file {
+    border-style: solid;
+    border-color: #10b981;
+    background: #ecfdf5;
+    padding: 16px 20px;
+}
+
+.sql-file-input {
+    display: none;
+}
+
+.dropzone-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.dropzone-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.7rem;
+    color: #eab308;
+    margin-bottom: 6px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.dropzone-empty h4 {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.dropzone-empty p {
+    margin: 0;
+    font-size: 0.825rem;
+    color: #64748b;
+}
+
+.dropzone-hint {
+    margin-top: 6px;
+    font-size: 0.75rem;
+    color: #94a3b8;
+    font-weight: 500;
+}
+
+/* ── Archivo Seleccionado ─────────────────────────────────── */
+.dropzone-file-selected {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.file-info-badge {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+    overflow: hidden;
+}
+
+.file-icon-sql {
+    font-size: 2.2rem;
+    color: #059669;
+    flex-shrink: 0;
+}
+
+.file-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    overflow: hidden;
+}
+
+.file-name {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #0f172a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 320px;
+}
+
+.file-size {
+    font-size: 0.78rem;
+    color: #059669;
+    font-weight: 600;
+}
+
+.btn-remove-file {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1px solid #fecaca;
+    background: #fee2e2;
+    color: #ef4444;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.btn-remove-file:hover:not(:disabled) {
+    background: #fca5a5;
+    color: #b91c1c;
+}
+
+/* ── Tarjeta de Opción de Restauración ────────────────────── */
+.restore-option-card {
+    margin-top: 18px;
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 12px;
+    padding: 14px 16px;
+}
+
+.restore-checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.restore-checkbox {
+    margin-top: 3px;
+    width: 18px;
+    height: 18px;
+    accent-color: #d97706;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.restore-label-text strong {
+    display: block;
+    font-size: 0.88rem;
+    color: #92400e;
+    margin-bottom: 2px;
+}
+
+.restore-label-text p {
+    font-size: 0.78rem;
+    color: #b45309;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* ── Mensaje informativo en modal ─────────────────────────── */
+.upload-modal-alert {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 14px;
+    padding: 10px 14px;
+    background: #f1f5f9;
+    border-radius: 8px;
+    font-size: 0.78rem;
+    color: #475569;
+    line-height: 1.4;
+}
+
+.upload-modal-alert i {
+    font-size: 1.2rem;
+    color: #64748b;
+    flex-shrink: 0;
+}
+
+/* ── Barra de Progreso ────────────────────────────────────── */
+.upload-progress-wrapper {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.upload-progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.upload-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #fccd1e, #ca8a04);
+    border-radius: 999px;
+    transition: width 0.2s ease;
+}
+
+.upload-progress-text {
+    font-size: 0.75rem;
+    color: #64748b;
+    font-weight: 600;
+    text-align: right;
+}
+
+/* ── Botón confirmar subida ───────────────────────────────── */
+.btn-confirm-upload {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: gold !important;
+    color: #0f172a !important;
+    font-weight: 700 !important;
+}
+
+.btn-confirm-upload:hover:not(:disabled) {
+    box-shadow: 0 4px 15px rgba(252, 205, 30, 0.4);
+}
+
+.btn-confirm-upload .spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(15, 23, 42, 0.3);
+    border-top-color: #0f172a;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
 @media (max-width: 768px) {
     .backup-hero {
         flex-direction: column;
         align-items: flex-start;
     }
 
+    .backup-hero-actions {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .btn-upload-sql,
     .btn-create-backup {
         width: 100%;
         justify-content: center;

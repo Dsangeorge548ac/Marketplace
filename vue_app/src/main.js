@@ -37,10 +37,12 @@ import '@fortawesome/fontawesome-free/css/all.css';
 
 const app = createApp(App);
 
-const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-app.use(vue3GoogleLogin, {
-  clientId: GOOGLE_CLIENT_ID
-});
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '1050273557756-e77g4ejuckimmf3km8fmemhkue7hfr3a.apps.googleusercontent.com';
+if (GOOGLE_CLIENT_ID) {
+  app.use(vue3GoogleLogin, {
+    clientId: GOOGLE_CLIENT_ID
+  });
+}
 
 app.use(router);
 

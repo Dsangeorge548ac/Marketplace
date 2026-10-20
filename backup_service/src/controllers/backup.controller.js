@@ -255,96 +255,173 @@ exports.downloadBackup = (req, res) => {
 
 
 
+function runRestore(filename) {
+    return new Promise(async (resolve, reject) => {
+        const rutaArchivo = path.join(BACKUP_DIR, filename);
+
+        if (!fs.existsSync(rutaArchivo)) {
+            console.error(`[BackupService] Archivo no encontrado en la ruta: ${rutaArchivo}`);
+            return reject(new Error(`El archivo físico '${filename}' no existe en el servidor.`));
+        }
+
+        try {
+            const [historialOriginal] = await db.query('SELECT idr, nombre, contenido, fecha FROM backups');
+            console.log(`[Backup] Resguardados ${historialOriginal.length} registros de la tabla 'backups' en memoria.`);
+
+            const DB_HOST = process.env.DB_HOST || 'marketplace_db';
+            const DB_USER = process.env.DB_USER || 'root';
+            const DB_PASS = process.env.DB_PASSWORD || '';
+            const DB_NAME = process.env.DB_NAME || 'marketplace';
+
+            const args = [
+                '-h', DB_HOST,
+                '-u', DB_USER,
+                `--password=${DB_PASS}`,
+                `--init-command=SET FOREIGN_KEY_CHECKS=0;`,
+                DB_NAME
+            ];
+
+            console.log(`[Backup] Iniciando inyección del archivo: ${filename}...`);
+
+            const child = execFile('mysql', args, async (execErr, _stdout, stderr) => {
+                if (execErr) {
+                    console.error('[BackupService] Error crítico en CLI de MySQL:', stderr || execErr.message);
+                    return reject(new Error(stderr || execErr.message));
+                }
+
+                try {
+                    await db.query('SET FOREIGN_KEY_CHECKS = 0');
+                    await db.query('TRUNCATE TABLE backups');
+
+                    if (historialOriginal.length > 0) {
+                        const insertQuery = 'INSERT INTO backups (idr, nombre, contenido, fecha) VALUES ?';
+                        const values = historialOriginal.map(b => [b.idr, b.nombre, b.contenido, b.fecha]);
+                        await db.query(insertQuery, [values]);
+                        console.log('[Backup] Tabla de registros reinsertada con éxito.');
+                    }
+
+                    await db.query('SET FOREIGN_KEY_CHECKS = 1');
+
+                    resolve({
+                        success: true,
+                        message: `Base de datos restaurada con éxito desde el archivo ${filename}. Historial preservado.`
+                    });
+
+                } catch (reinsertErr) {
+                    await db.query('SET FOREIGN_KEY_CHECKS = 1').catch(() => { });
+                    console.error('[BackupService] Error al reinsertar el historial de la tabla:', reinsertErr.message);
+                    reject(new Error('La base de datos se restauró, pero los registros de la tabla se perdieron.'));
+                }
+            });
+
+            const readStream = fs.createReadStream(rutaArchivo);
+            readStream.on('error', (streamErr) => {
+                console.error('[BackupService] Error leyendo el archivo de respaldo:', streamErr.message);
+                if (child && !child.killed) child.kill();
+                reject(new Error('Error leyendo el archivo de respaldo.'));
+            });
+
+            readStream.pipe(child.stdin);
+
+        } catch (err) {
+            console.error('[BackupService] Error general en el proceso:', err.message);
+            reject(err);
+        }
+    });
+}
+
 exports.restoreBackup = async (req, res) => {
-    // 1. Obtener y sanitizar el nombre del archivo enviado por la URL/Parámetros
     const filename = path.basename(req.params.filename);
+    try {
+        const result = await runRestore(filename);
+        return res.json(result);
+    } catch (err) {
+        return res.status(500).json({
+            error: 'No se pudo procesar la solicitud de restauración.',
+            detalle: err.message
+        });
+    }
+};
+
+// ============================================================
+// uploadBackup
+// Recibe un archivo .sql subido por el usuario, lo guarda en el
+// directorio de respaldos y lo registra en la base de datos.
+// Opcionalmente lo restaura de inmediato si restore=true.
+// ============================================================
+exports.uploadBackup = async (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ error: 'No se recibió ningún archivo .sql válido' });
+    }
+
+    const filename = req.file.filename;
     const rutaArchivo = path.join(BACKUP_DIR, filename);
 
     try {
-        // 2. Verificar primero si el archivo físico realmente exista en el disco
-        if (!fs.existsSync(rutaArchivo)) {
-            console.error(`[BackupService] Archivo no encontrado en la ruta: ${rutaArchivo}`);
-            return res.status(404).json({ error: `El archivo físico '${filename}' no existe en el servidor.` });
+        const stats = fs.statSync(rutaArchivo);
+        if (stats.size === 0) {
+            fs.unlinkSync(rutaArchivo);
+            return res.status(400).json({ error: 'El archivo SQL subido está vacío.' });
         }
 
-        // 3. RESPALDAR EN MEMORIA el historial de la tabla antes del borrado masivo
-        // Extraemos los metadatos para volverlos a inyectar después
-        // IMPORTANTE: la tabla `backups` utiliza las columnas `idr`, `nombre`, `contenido`, `fecha`
-        const [historialOriginal] = await db.query('SELECT idr, nombre, contenido, fecha FROM backups');
-        console.log(`[Backup] Resguardados ${historialOriginal.length} registros de la tabla 'backups' en memoria.`);
+        const backupUrl = buildBackupUrl(filename);
+        const now = new Date();
 
-        // Credenciales del motor de Base de Datos
-        const DB_HOST = process.env.DB_HOST || 'marketplace_db';
-        const DB_USER = process.env.DB_USER || 'root';
-        const DB_PASS = process.env.DB_PASSWORD || '';
-        const DB_NAME = process.env.DB_NAME || 'marketplace';
+        await db.query(
+            'INSERT INTO backups (contenido, nombre, fecha) VALUES (?, ?, NOW())',
+            [backupUrl, filename]
+        );
 
-        // 4. Ejecutar el cliente `mysql` de forma segura usando execFile y pasando el archivo por stdin
-        const args = [
-            '-h', DB_HOST,
-            '-u', DB_USER,
-            `--password=${DB_PASS}`,
-            `--init-command=SET FOREIGN_KEY_CHECKS=0;`,
-            DB_NAME
-        ];
+        console.log(`[BackupService] Respaldo SQL subido y registrado: ${filename} (${stats.size} bytes)`);
 
-        console.log(`[Backup] Iniciando inyección del archivo: ${filename}...`);
+        const restoreImmediately = req.body.restore === 'true' || req.query.restore === 'true';
 
-        const child = execFile('mysql', args, async (execErr, _stdout, stderr) => {
-            if (execErr) {
-                console.error('[BackupService] Error crítico en CLI de MySQL:', stderr || execErr.message);
-                return res.status(500).json({ 
-                    error: 'Error al ejecutar la restauración en el motor MySQL',
-                    details: stderr || execErr.message 
-                });
-            }
-
+        if (restoreImmediately) {
+            console.log(`[BackupService] Restaurando base de datos inmediatamente tras subida de: ${filename}`);
             try {
-                // 6. APAGAR claves foráneas en esta sesión de Node para limpiar la tabla
-                await db.query('SET FOREIGN_KEY_CHECKS = 0');
-
-                // 7. Limpiar la tabla 'backups' que vino en el archivo (viejos datos sobreescritos)
-                await db.query('TRUNCATE TABLE backups');
-
-                // 8. Devolver los respaldos que guardamos en el paso 3 a la base de datos limpia
-                if (historialOriginal.length > 0) {
-                    const insertQuery = 'INSERT INTO backups (idr, nombre, contenido, fecha) VALUES ?';
-                    const values = historialOriginal.map(b => [b.idr, b.nombre, b.contenido, b.fecha]);
-                    await db.query(insertQuery, [values]);
-                    console.log('[Backup] Tabla de registros reinsertada con éxito.');
-                }
-
-                // 9. REACTIVAR claves foráneas por seguridad de la aplicación
-                await db.query('SET FOREIGN_KEY_CHECKS = 1');
-
-                return res.json({ 
-                    success: true, 
-                    message: `Base de datos restaurada con éxito desde el archivo ${filename}. Historial preservado.` 
+                const restoreResult = await runRestore(filename);
+                return res.status(201).json({
+                    success: true,
+                    mensaje: `Archivo ${filename} subido y base de datos restaurada exitosamente`,
+                    archivo: filename,
+                    url: backupUrl,
+                    tamano_kb: Math.round(stats.size / 1024),
+                    fecha: now.toISOString(),
+                    restaurado: true,
+                    restoreResult
                 });
-
-            } catch (reinsertErr) {
-                // Si algo falla al final, nos aseguramos de volver a prender las llaves foráneas
-                await db.query('SET FOREIGN_KEY_CHECKS = 1').catch(() => {});
-                console.error('[BackupService] Error al reinsertar el historial de la tabla:', reinsertErr.message);
-                return res.status(500).json({ error: 'La base de datos se restauró, pero los registros de la tabla se perdieron.' });
+            } catch (restoreErr) {
+                console.error('[BackupService] Error al restaurar tras subida:', restoreErr.message);
+                return res.status(500).json({
+                    error: 'El archivo se subió y registró, pero falló la restauración automática.',
+                    archivo: filename,
+                    tamano_kb: Math.round(stats.size / 1024),
+                    detalle: restoreErr.message
+                });
             }
-        });
+        }
 
-        // Pipe del archivo SQL al stdin del proceso mysql
-        const readStream = fs.createReadStream(rutaArchivo);
-        readStream.on('error', (streamErr) => {
-            console.error('[BackupService] Error leyendo el archivo de respaldo:', streamErr.message);
-            if (child && !child.killed) child.kill();
-            if (!res.headersSent) res.status(500).json({ error: 'Error leyendo el archivo de respaldo.' });
+        return res.status(201).json({
+            success: true,
+            mensaje: 'Archivo SQL subido y registrado exitosamente',
+            archivo: filename,
+            url: backupUrl,
+            tamano_kb: Math.round(stats.size / 1024),
+            fecha: now.toISOString(),
+            restaurado: false
         });
-
-        readStream.pipe(child.stdin);
 
     } catch (err) {
-        console.error('[BackupService] Error general en el proceso:', err.message);
-        res.status(500).json({ error: 'No se pudo procesar la solicitud de restauración.' });
+        console.error('[BackupService] Error al procesar subida de respaldo:', err.message);
+        if (fs.existsSync(rutaArchivo)) {
+            try { fs.unlinkSync(rutaArchivo); } catch (_) { }
+        }
+        return res.status(500).json({
+            error: 'No se pudo guardar el archivo de respaldo en el servidor',
+            detalle: err.message
+        });
     }
-}
+};
 
 // ============================================================
 // deleteBackup
@@ -378,3 +455,8 @@ exports.deleteBackup = async (req, res) => {
         res.status(500).json({ error: 'No se pudo eliminar el archivo de respaldo' });
     }
 };
+
+exports.BACKUP_DIR = BACKUP_DIR;
+exports.buildBackupUrl = buildBackupUrl;
+exports.runRestore = runRestore;
+
