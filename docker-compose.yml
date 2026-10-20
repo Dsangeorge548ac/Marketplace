@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # ─── API Gateway ────────────────────────────────────────────────────────────
   # Punto de entrada único para frontend y microservicios.
@@ -73,7 +71,7 @@ services:
       DB_NAME: ${DB_NAME}
       REDIS_HOST: fabrimine_redis
       REDIS_PORT: 6379
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-fabrimineRedis2026!}
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
     volumes:
       # Volúmenes de desarrollo y persistencia renombrados
@@ -99,7 +97,7 @@ services:
       DB_NAME: ${DB_NAME}
       REDIS_HOST: fabrimine_redis
       REDIS_PORT: ${REDIS_PORT:-6379}
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-fabrimineRedis2026!}
     volumes:
       - ./publications_service/src:/app/src
       - ./publications_service/package.json:/app/package.json
@@ -163,16 +161,7 @@ networks:
 
 # ─── Volúmenes Nombrados y Persistentes ──────────────────────────────────────
 volumes:
-  # Usa los volúmenes legacy de producción existentes
   fabrimine_db_data:
-    name: fabrimineapp-fabriminestack-l6km1s_marketplace_data
-    external: true
   fabrimine_user_uploads:
-    name: fabrimineapp-fabriminestack-l6km1s_user_uploads_data
-    external: true
   fabrimine_publications_uploads:
-    name: fabrimineapp-fabriminestack-l6km1s_publications_uploads_data
-    external: true
   fabrimine_backup_data:
-    name: fabrimineapp-fabriminestack-l6km1s_backup_data
-    external: true
